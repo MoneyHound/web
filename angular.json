@@ -120,6 +120,11 @@
               {
                 "glob": "**/*",
                 "input": "projects/marketing/public"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/ui/public",
+                "output": "assets/ui"
               }
             ],
             "styles": ["projects/marketing/src/styles.scss"]

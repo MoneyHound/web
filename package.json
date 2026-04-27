@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "rebuild": "ng build ui & ng build marketing"
   },
   "private": true,
   "packageManager": "yarn@1.22.22",

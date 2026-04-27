@@ -1,0 +1,15 @@
+<section class="how-it-works">
+  <div class="how-it-works__container container">
+    <span class="how-it-works__label">HOW IT WORKS</span>
+    <h2 class="how-it-works__heading">Three steps to compliance confidence</h2>
+    <div class="how-it-works__steps">
+      @for (step of steps(); track step.number) {
+        <div class="how-it-works__step">
+          <span class="how-it-works__number">{{ step.number }}</span>
+          <h3 class="how-it-works__step-title">{{ step.title }}</h3>
+          <p class="how-it-works__step-description">{{ step.description }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>

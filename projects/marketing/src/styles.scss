@@ -1,1 +1,61 @@
-/* You can add global styles to this file, and also import other style files */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  // Backgrounds
+  --black: #080a0f;
+  --surface: #0e1118;
+  --surface2: #141820;
+  --border: #1e2430;
+  --border2: #2a3344;
+
+  // Brand
+  --gold: #f0b429;
+  --gold-dim: #c49022;
+  --gold-glow: rgba(240, 180, 41, 0.12);
+
+  // Semantic
+  --green: #00e5a0;
+  --green-dim: rgba(0, 229, 160, 0.1);
+  --red: #ff4d6d;
+  --blue: #7dd3fc;
+
+  // Text
+  --text: #e8eaf0;
+  --text2: #b0b8c8;
+  --muted: #6b7280;
+  --white: #ffffff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,18 @@
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo__mark {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.logo__wordmark {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text);
+}
