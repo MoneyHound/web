@@ -15,10 +15,10 @@
     "target": "ES2022",
     "module": "preserve",
     "paths": {
-      "api": ["./dist/api"],
-      "auth": ["./dist/auth"],
-      "models": ["./dist/models"],
-      "ui": ["./dist/ui"]
+      "api": ["./projects/api/src/public-api.ts"],
+      "auth": ["./projects/auth/src/public-api.ts"],
+      "models": ["./projects/models/src/public-api.ts"],
+      "ui": ["./projects/ui/src/public-api.ts"]
     }
   },
   "angularCompilerOptions": {
