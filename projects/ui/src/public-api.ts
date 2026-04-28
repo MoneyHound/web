@@ -9,3 +9,4 @@ export * from './lib/components/textarea/textarea';
 export * from './lib/components/logo/logo';
 export * from './lib/components/footer/footer';
 export * from './lib/components/navbar/navbar';
+export * from './lib/components/form-group/form-group';

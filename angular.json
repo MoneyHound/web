@@ -28,6 +28,11 @@
               {
                 "glob": "**/*",
                 "input": "projects/dashboard/public"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/ui/public",
+                "output": "assets/ui"
               }
             ],
             "styles": ["projects/dashboard/src/styles.scss"]

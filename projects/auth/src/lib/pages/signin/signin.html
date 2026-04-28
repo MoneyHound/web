@@ -1,0 +1,77 @@
+<div class="signin-container">
+  <h1>Sign In</h1>
+
+  @if (error) {
+    <div class="error-message">{{ error }}</div>
+  }
+
+  <form [formGroup]="form">
+    <mh-form-group
+      label="Email"
+      for="email"
+      [control]="form.get('email')"
+      [errors]="{ required: 'Email is required', email: 'Please enter a valid email' }"
+    >
+      <input
+        mh-input
+        type="email"
+        id="email"
+        formControlName="email"
+        placeholder="Enter your email"
+        [disabled]="codeSent"
+      />
+    </mh-form-group>
+
+    @if (codeSent) {
+      <mh-form-group
+        label="Verification Code"
+        for="code"
+        [control]="form.get('code')"
+        [errors]="{ required: 'Code is required', minlength: 'Code must be 6 digits' }"
+      >
+        <input
+          mh-input
+          type="text"
+          id="code"
+          formControlName="code"
+          placeholder="Enter 6-digit code"
+          maxlength="6"
+        />
+      </mh-form-group>
+
+      <button
+        mh-button
+        variant="primary"
+        size="lg"
+        type="button"
+        [disabled]="isLoading || form.invalid"
+        (click)="onVerifyCode()"
+      >
+        @if (isLoading) {
+          Verifying...
+        } @else {
+          Verify Code
+        }
+      </button>
+    } @else {
+      <button
+        mh-button
+        variant="primary"
+        size="lg"
+        type="button"
+        [disabled]="isLoading || form.get('email')?.invalid"
+        (click)="onRequestCode()"
+      >
+        @if (isLoading) {
+          Sending...
+        } @else {
+          Send Code
+        }
+      </button>
+    }
+  </form>
+
+  <p class="auth-link">
+    Don't have an account? <a mh-button [variant]="'ghost'" [size]="'sm'" [href]="signIn()">Register</a>
+  </p>
+</div>

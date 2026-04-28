@@ -1,0 +1,5 @@
+<label mh-label [for]="for()">{{ label() }}</label>
+<ng-content />
+@if (showError) {
+  <span class="field-error">{{ errorMessage }}</span>
+}

@@ -11,5 +11,5 @@ import { MhLogo } from '../logo/logo';
   styleUrl: './navbar.scss',
 })
 export class Navbar {
-  protected readonly dashboardUrl = signal('/dashboard');
+  protected readonly dashboardUrl = signal('/register');
 }
