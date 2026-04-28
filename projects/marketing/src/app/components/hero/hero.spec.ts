@@ -24,7 +24,7 @@ describe('Hero', () => {
     const fixture = TestBed.createComponent(Hero);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    const cta = compiled.querySelector('.hero__cta') as HTMLAnchorElement;
+    const cta = compiled.querySelector('[mh-button]') as HTMLAnchorElement;
     expect(cta?.textContent).toContain('Get Started');
   });
 });

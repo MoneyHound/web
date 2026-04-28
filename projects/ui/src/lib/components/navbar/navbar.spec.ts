@@ -24,7 +24,7 @@ describe('Navbar', () => {
     const fixture = TestBed.createComponent(Navbar);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    const cta = compiled.querySelector('.navbar__cta') as HTMLAnchorElement;
+    const cta = compiled.querySelector('[mh-button]') as HTMLAnchorElement;
     expect(cta?.textContent).toContain('Get Started');
     expect(cta?.href).toContain('/dashboard');
   });

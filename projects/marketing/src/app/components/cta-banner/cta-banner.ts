@@ -1,8 +1,9 @@
 import { Component, signal } from '@angular/core';
+import { MhButton } from 'ui';
 
 @Component({
   selector: 'mh-cta-banner',
-  imports: [],
+  imports: [MhButton],
   templateUrl: './cta-banner.html',
   styleUrl: './cta-banner.scss',
 })

@@ -20,6 +20,6 @@ describe('CtaBanner', () => {
     expect(compiled.querySelector('.cta-banner__headline')?.textContent).toContain(
       'Ready to test your compliance systems?',
     );
-    expect(compiled.querySelector('.cta-banner__button')?.textContent).toContain('Get Started');
+    expect(compiled.querySelector('[mh-button]')?.textContent).toContain('Get Started');
   });
 });

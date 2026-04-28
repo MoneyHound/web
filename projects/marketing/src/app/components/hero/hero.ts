@@ -1,8 +1,9 @@
 import { Component, signal } from '@angular/core';
+import { MhButton } from 'ui';
 
 @Component({
   selector: 'mh-hero',
-  imports: [],
+  imports: [MhButton],
   templateUrl: './hero.html',
   styleUrl: './hero.scss',
 })
