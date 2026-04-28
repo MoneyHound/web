@@ -1,9 +1,11 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { Footer } from './footer';
 
 describe('Footer', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      providers: [provideRouter([])],
       imports: [Footer],
     }).compileComponents();
   });
@@ -26,6 +28,6 @@ describe('Footer', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     const links = compiled.querySelectorAll('.footer__links a');
-    expect(links.length).toBe(3);
+    expect(links.length).toBe(4);
   });
 });

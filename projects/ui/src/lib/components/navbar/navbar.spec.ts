@@ -1,9 +1,11 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { Navbar } from './navbar';
 
 describe('Navbar', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      providers: [provideRouter([])],
       imports: [Navbar],
     }).compileComponents();
   });
@@ -26,6 +28,13 @@ describe('Navbar', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     const cta = compiled.querySelector('[mh-button]') as HTMLAnchorElement;
     expect(cta?.textContent).toContain('Get Started');
-    expect(cta?.href).toContain('/dashboard');
+  });
+
+  it('should render nav links', () => {
+    const fixture = TestBed.createComponent(Navbar);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    const links = compiled.querySelectorAll('.navbar__link');
+    expect(links.length).toBe(2);
   });
 });

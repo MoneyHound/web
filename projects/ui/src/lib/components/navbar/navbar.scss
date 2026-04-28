@@ -17,3 +17,41 @@
 .navbar__brand {
   text-decoration: none;
 }
+
+.navbar__nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.navbar__link {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--text2);
+  text-decoration: none;
+  transition: color 200ms ease;
+
+  &:hover {
+    color: var(--text);
+  }
+
+  &.navbar__link--active {
+    color: var(--gold);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--gold-glow);
+    border-radius: 2px;
+  }
+}
+
+@media (max-width: 767px) {
+  .navbar__nav {
+    gap: 16px;
+  }
+
+  .navbar__link {
+    font-size: 13px;
+  }
+}

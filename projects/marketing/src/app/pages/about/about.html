@@ -1,0 +1,83 @@
+<section class="about">
+  <div class="about__container container">
+    <span class="about__label">ABOUT US</span>
+    <h1 class="about__headline">Building the future of compliance testing</h1>
+    <p class="about__body">
+      MoneyHound was built for the teams that keep financial systems safe —
+      compliance officers, data scientists, and AML analysts who need better
+      tools to test, train, and validate their detection systems.
+    </p>
+    <p class="about__body">
+      Real customer data is too risky to use in testing. Synthetic data is too
+      simplistic to be useful. MoneyHound bridges that gap — generating
+      production-grade transaction datasets with realistic fraud patterns,
+      behavioral anomalies, and jurisdiction-specific AML rules baked in.
+    </p>
+    <p class="about__body">
+      We believe compliance teams deserve the same quality of tooling as the
+      teams they monitor. That starts with better data.
+    </p>
+
+    <span class="about__label">OUR VALUES</span>
+    <h2 class="about__subheading">What drives every decision</h2>
+    <div class="about__values">
+      @for (value of values(); track value.title) {
+        <div class="about__card">
+          <div class="about__card-icon about__card-icon--{{ value.icon }}">
+            @switch (value.icon) {
+              @case ('precision') {
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <circle cx="12" cy="12" r="6" />
+                  <circle cx="12" cy="12" r="2" />
+                </svg>
+              }
+              @case ('trust') {
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+              }
+              @case ('speed') {
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                </svg>
+              }
+            }
+          </div>
+          <h3 class="about__card-title">{{ value.title }}</h3>
+          <p class="about__card-description">{{ value.description }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>

@@ -1,8 +1,12 @@
 <nav class="navbar">
   <div class="navbar__inner container">
-    <a class="navbar__brand" href="/">
+    <a class="navbar__brand" routerLink="/">
       <mh-logo />
     </a>
-    <a mh-button [href]="dashboardUrl()">Get Started</a>
+    <div class="navbar__nav">
+      <a class="navbar__link" routerLink="/about" routerLinkActive="navbar__link--active">About</a>
+      <a class="navbar__link" routerLink="/contact" routerLinkActive="navbar__link--active">Contact</a>
+      <a mh-button [href]="dashboardUrl()">Get Started</a>
+    </div>
   </div>
 </nav>

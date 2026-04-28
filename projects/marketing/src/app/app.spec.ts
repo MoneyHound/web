@@ -1,9 +1,11 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { App } from './app';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      providers: [provideRouter([])],
       imports: [App],
     }).compileComponents();
   });
@@ -14,10 +16,11 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render hero headline', async () => {
+  it('should render navbar and footer', () => {
     const fixture = TestBed.createComponent(App);
-    await fixture.whenStable();
+    fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('mh-hero')?.textContent).toContain('Synthetic Data');
+    expect(compiled.querySelector('mh-navbar')).toBeTruthy();
+    expect(compiled.querySelector('mh-footer')).toBeTruthy();
   });
 });
