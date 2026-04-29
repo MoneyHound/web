@@ -128,8 +128,7 @@ export class AuthStore {
         },
         error: () => {
           this.profileFetched = true;
-          console.log("Failed")
-          this.router.navigate(['signin']);
+          this.router.navigate(['/signin']);
           resolve();
         },
       });

@@ -44,6 +44,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

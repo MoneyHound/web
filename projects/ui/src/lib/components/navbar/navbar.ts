@@ -10,7 +10,7 @@ import { MhButton, MhLogo } from 'ui';
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })
-export class Navbar {
+export class MHNavbar {
   private readonly config = inject(APP_CONFIG)
   protected readonly dashboardUrl = this.config.dashboardUrl;
 }

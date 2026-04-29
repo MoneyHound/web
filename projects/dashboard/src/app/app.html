@@ -1,5 +1,10 @@
 <mh-toast-container />
 <mh-popup />
+
+@if (!authStore.isAuthenticated()) {
+  <mh-navbar />
+}
+
 @if (authStore.isAuthenticated()) {
   <mh-sidebar
     [items]="navItems"
@@ -8,6 +13,10 @@
     (logout)="authStore.logout()"
   />
 }
-<div class="app__main" [class.app__main--collapsed]="sidebarCollapsed()">
+<div class="app__main" [class.app__main--sidebar]="authStore.isAuthenticated()" [class.app__main--collapsed]="sidebarCollapsed()">
   <router-outlet />
 </div>
+
+@if (!authStore.isAuthenticated()) {
+  <mh-footer />
+}

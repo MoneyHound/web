@@ -13,3 +13,5 @@ export * from './lib/components/toast/toast-container';
 export * from './lib/components/popup/popup.service';
 export * from './lib/components/popup/popup';
 export * from './lib/components/sidebar/sidebar';
+export * from './lib/components/navbar/navbar';
+export * from './lib/components/footer/footer';

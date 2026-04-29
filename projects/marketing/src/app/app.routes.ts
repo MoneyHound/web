@@ -4,7 +4,7 @@ import { About } from './pages/about/about';
 import { Contact } from './pages/contact/contact';
 import { Privacy } from './pages/privacy/privacy';
 import { Terms } from './pages/terms/terms';
-import { Register, SignIn, NotFound } from 'auth';
+import { NotFound } from 'auth';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -12,7 +12,5 @@ export const routes: Routes = [
   { path: 'contact', component: Contact },
   { path: 'privacy', component: Privacy },
   { path: 'terms', component: Terms },
-  { path: 'register', component: Register },
-  { path: 'signin', component: SignIn },
   { path: '**', component: NotFound },
 ];

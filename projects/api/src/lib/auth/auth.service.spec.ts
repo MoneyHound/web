@@ -45,7 +45,7 @@ describe('AuthService', () => {
         expect(response).toEqual(mockResponse);
       });
 
-      const req = httpMock.expectOne('http://localhost:8080/auth/register');
+      const req = httpMock.expectOne('http://localhost:8080/auth');
       expect(req.request.method).toBe('POST');
       expect(req.request.withCredentials).toBe(true);
       expect(req.request.body).toEqual({ email: 'test@example.com', organization: 'Test Org' });
