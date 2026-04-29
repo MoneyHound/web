@@ -5,10 +5,6 @@
         <h1 class="home__title">Welcome back{{ authStore.user()?.username ? ', ' + authStore.user()?.username : '' }}</h1>
         <p class="home__subtitle">Manage your account and simulations</p>
       </div>
-      <button mh-button variant="secondary" size="sm" (click)="authStore.logout()">
-        <span class="material-icons" style="font-size: 18px; margin-right: 6px;">logout</span>
-        Sign Out
-      </button>
     </div>
 
     <div class="home__cards">

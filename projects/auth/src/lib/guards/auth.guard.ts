@@ -14,7 +14,6 @@ export const authGuard = async () => {
     return true;
   }
 
-  router.navigate(['/signin']);
   return false;
 };
 
@@ -22,7 +21,7 @@ export const unAuthGuard = async () => {
   const authStore = inject(AuthStore);
   const router = inject(Router);
 
-  if (authStore.user() !== null) {
+  if (!authStore.user()) {
     return true;
   }
 

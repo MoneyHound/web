@@ -1,0 +1,45 @@
+<aside class="sidebar" [class.sidebar--collapsed]="isCollapsed">
+  <div class="sidebar__header">
+    <img src="assets/ui/logo-small.png" alt="MoneyHound" class="sidebar__logo" />
+    @if (!isCollapsed) {
+      <span class="sidebar__brand">MoneyHound</span>
+    }
+  </div>
+
+  <nav class="sidebar__nav">
+    @for (item of items(); track item.route) {
+      <a
+        class="sidebar__link"
+        [routerLink]="item.route"
+        routerLinkActive="sidebar__link--active"
+        [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
+      >
+        <span class="material-icons sidebar__link-icon">{{ item.icon }}</span>
+        @if (!isCollapsed) {
+          <span class="sidebar__link-label">{{ item.label }}</span>
+        }
+      </a>
+    }
+  </nav>
+
+  <div class="sidebar__footer">
+    @if (!isCollapsed) {
+      <div class="sidebar__user">
+        <span class="material-icons sidebar__user-avatar">account_circle</span>
+        <div class="sidebar__user-info">
+          <span class="sidebar__user-name">{{ userName() }}</span>
+          <span class="sidebar__user-email">{{ userEmail() }}</span>
+        </div>
+      </div>
+    }
+    <button class="sidebar__logout" type="button" (click)="logout.emit()">
+      <span class="material-icons">logout</span>
+      @if (!isCollapsed) {
+        <span class="sidebar__logout-label">Sign out</span>
+      }
+    </button>
+    <button class="sidebar__toggle" type="button" (click)="toggle()" [attr.aria-label]="isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'">
+      <span class="material-icons">{{ isCollapsed ? 'chevron_right' : 'chevron_left' }}</span>
+    </button>
+  </div>
+</aside>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { MhLogo } from '../logo/logo';
+import { MhLogo } from 'ui';
 
 @Component({
   standalone: true,
@@ -9,4 +9,4 @@ import { MhLogo } from '../logo/logo';
   templateUrl: './footer.html',
   styleUrl: './footer.scss',
 })
-export class MHFooter {}
+export class Footer {}

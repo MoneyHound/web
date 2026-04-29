@@ -6,3 +6,4 @@ export * from './lib/auth';
 export * from './lib/pages/register/register';
 export * from './lib/pages/signin/signin';
 export * from './lib/pages/not-found/not-found';
+export * from './lib/guards/auth.guard';

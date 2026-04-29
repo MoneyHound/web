@@ -1,7 +1,13 @@
 <mh-toast-container />
 <mh-popup />
-<mh-navbar />
-<div class="app__content">
+@if (authStore.isAuthenticated()) {
+  <mh-sidebar
+    [items]="navItems"
+    [userName]="authStore.user()?.username ?? ''"
+    [userEmail]="authStore.user()?.email ?? ''"
+    (logout)="authStore.logout()"
+  />
+}
+<div class="app__main" [class.app__main--collapsed]="sidebarCollapsed()">
   <router-outlet />
 </div>
-<mh-footer />

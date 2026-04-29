@@ -1,7 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { MhButton } from '../button/button';
-import { MhLogo } from '../logo/logo';
+import { MhButton, MhLogo } from 'ui';
 
 @Component({
   standalone: true,
@@ -10,6 +9,6 @@ import { MhLogo } from '../logo/logo';
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })
-export class MHNavbar {
+export class Navbar {
   protected readonly dashboardUrl = signal('/register');
 }

@@ -2,7 +2,7 @@ import { Injectable, inject, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'api';
 import { ToastService, PopupService } from 'ui';
-import { User, CreateUser, VerifyOTP, UpdateProfile } from 'models';
+import { User, CreateUser, VerifyOTP, UpdateProfile, APP_CONFIG } from 'models';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +11,8 @@ export class AuthStore {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly toastService = inject(ToastService);
-  private readonly popupService = inject(PopupService);
-
+  private readonly config = inject(APP_CONFIG);
+  
   // State signals
   private readonly _user = signal<User | null>(null);
   private readonly _isLoading = signal(false);
@@ -26,6 +26,7 @@ export class AuthStore {
   readonly codeSent = this._codeSent.asReadonly();
   readonly resendWait = this._resendWait.asReadonly();
   readonly isLoadingGoogle = this._isLoadingGoogle.asReadonly();
+  profileFetched = false;
 
   // Computed signals
   readonly isAuthenticated = computed(() => !!this._user());
@@ -96,6 +97,7 @@ export class AuthStore {
       next: (response) => {
         this._isLoading.set(false);
         if (response.success) {
+          this.profileFetched = false;
           this.toastService.success('Signed in successfully!');
           this.fetchProfile();
           this.router.navigate(['/']);
@@ -111,15 +113,23 @@ export class AuthStore {
   }
 
   fetchProfile(): Promise<void> {
+    if (this.profileFetched) {
+      return Promise.resolve();
+    }
+
     return new Promise((resolve) => {
       this.authService.getProfile().subscribe({
         next: (response) => {
+          this.profileFetched = true;
           if (response.success && response.data) {
             this._user.set(response.data);
           }
           resolve();
         },
         error: () => {
+          this.profileFetched = true;
+          console.log("Failed")
+          this.router.navigate(['signin']);
           resolve();
         },
       });
@@ -154,6 +164,7 @@ export class AuthStore {
         this._isLoading.set(false);
         this._user.set(null);
         this._codeSent.set(false);
+        this.profileFetched = false;
         this.toastService.info('Account deleted');
         this.router.navigate(['/signin']);
       },
@@ -165,10 +176,20 @@ export class AuthStore {
   }
 
   logout(): void {
-    this._user.set(null);
-    this._codeSent.set(false);
-    this.toastService.info('You have been signed out');
-    this.router.navigate(['/signin']);
+    this.authService.logout().subscribe({
+      next: () => {
+        this._isLoading.set(false);
+        this._user.set(null);
+        this._codeSent.set(false);
+        this.profileFetched = false;
+        this.toastService.info('You have been signed out');
+        this.router.navigate(['/signin']);
+      },
+      error: (err) => {
+        this._isLoading.set(false);
+        this.toastService.error(err.error?.message ?? 'Failed to logout');
+      },
+    });
   }
 
   resetCodeSent(): void {
@@ -177,6 +198,6 @@ export class AuthStore {
 
   googleLogin(): void {
     this._isLoadingGoogle.set(true);
-    window.location.href = "http://localhost:8080/auth/google/login"
+    window.location.href = `${this.config.apiUrl}/auth/google/login`
   }
 }
