@@ -21,7 +21,7 @@
       label="Organization"
       for="organization"
       [control]="form.get('organization')"
-      [errors]="{ required: 'Organization is required', minlength: 'Organization must be at least 3 characters' }"
+      [errors]="{ minlength: 'Organization must be at least 3 characters' }"
     >
       <input
         mh-input
@@ -50,4 +50,18 @@
   <p class="auth-link">
     Already have an account? <a mh-button [variant]="'ghost'" [size]="'sm'" [href]="signInRoute()">Sign In</a>
   </p>
+
+  <button
+    mh-button
+    variant="secondary"
+    size="lg"
+    (click)="continueWithGoogle()"
+    [disabled]="isLoadingGoogle()"
+  >
+    @if (isLoadingGoogle()) {
+      Loading...
+    } @else {
+      Continue with Google
+    }
+  </button>
 </div>

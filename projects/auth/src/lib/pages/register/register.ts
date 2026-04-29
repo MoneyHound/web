@@ -17,11 +17,12 @@ export class Register {
 
   readonly form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    organization: ['', [Validators.required, Validators.minLength(3)]],
+    organization: ['', [Validators.minLength(3)]],
   });
 
   // Expose store signals to template
   readonly isLoading = this.authStore.isLoading;
+  readonly isLoadingGoogle = this.authStore.isLoadingGoogle
 
   onSubmit(): void {
     if (this.form.invalid) {
@@ -31,5 +32,9 @@ export class Register {
 
     const data = this.form.getRawValue() as CreateUser;
     this.authStore.register(data);
+  }
+
+  continueWithGoogle(): void {
+    this.authStore.googleLogin()
   }
 }

@@ -1,6 +1,6 @@
 export enum UserStatus {
   Active,
-  Inactive
+  Inactive,
 }
 
 export interface User {
@@ -8,13 +8,15 @@ export interface User {
   created_at: string;
   updated_at: string;
   email: string;
+  username: string;
   organization: string;
   status: UserStatus;
+  google_id: string;
 }
 
 export interface CreateUser {
   email: string;
-  organization: string;
+  organization?: string | null;
 }
 
 export interface VerifyOTP {
@@ -25,6 +27,11 @@ export interface VerifyOTP {
 export interface Token {
   token: string;
   access: string;
+}
+
+export interface UpdateProfile {
+  email?: string | null;
+  organization?: string | null;
 }
 
 export interface DataResponse<T> {

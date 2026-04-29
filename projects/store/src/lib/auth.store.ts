@@ -1,8 +1,8 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'api';
-import { ToastService } from 'ui';
-import { User, CreateUser, VerifyOTP } from 'models';
+import { ToastService, PopupService } from 'ui';
+import { User, CreateUser, VerifyOTP, UpdateProfile } from 'models';
 
 @Injectable({
   providedIn: 'root',
@@ -11,30 +11,23 @@ export class AuthStore {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly toastService = inject(ToastService);
+  private readonly popupService = inject(PopupService);
 
   // State signals
   private readonly _user = signal<User | null>(null);
-  private readonly _token = signal<string | null>(null);
   private readonly _isLoading = signal(false);
   private readonly _codeSent = signal(false);
+  private readonly _isLoadingGoogle = signal(false);
 
   // Public readonly signals
   readonly user = this._user.asReadonly();
-  readonly token = this._token.asReadonly();
   readonly isLoading = this._isLoading.asReadonly();
   readonly codeSent = this._codeSent.asReadonly();
+  readonly isLoadingGoogle = this._isLoadingGoogle.asReadonly();
 
   // Computed signals
-  readonly isAuthenticated = computed(() => !!this._token());
+  readonly isAuthenticated = computed(() => !!this._user());
   readonly userEmail = computed(() => this._user()?.email ?? null);
-
-  constructor() {
-    // Initialize token from localStorage
-    const storedToken = localStorage.getItem('token');
-    if (storedToken) {
-      this._token.set(storedToken);
-    }
-  }
 
   // Actions
   register(data: CreateUser): void {
@@ -79,15 +72,14 @@ export class AuthStore {
   }
 
   verifyOtp(data: VerifyOTP): void {
-    this._isLoading.set(false);
+    this._isLoading.set(true);
 
     this.authService.verifyOtp(data).subscribe({
       next: (response) => {
         this._isLoading.set(false);
-        if (response.success && response.data?.token) {
-          this._token.set(response.data.token);
-          localStorage.setItem('token', response.data.token);
+        if (response.success) {
           this.toastService.success('Signed in successfully!');
+          this.fetchProfile();
           this.router.navigate(['/']);
         } else {
           this.toastService.error(response.message ?? 'Invalid code');
@@ -100,16 +92,67 @@ export class AuthStore {
     });
   }
 
+  fetchProfile(): void {
+    this.authService.getProfile().subscribe({
+      next: (response) => {
+        if (response.success && response.data) {
+          this._user.set(response.data);
+        }
+      },
+    });
+  }
+
+  updateProfile(data: UpdateProfile): void {
+    this._isLoading.set(true);
+
+    this.authService.updateProfile(data).subscribe({
+      next: (response) => {
+        this._isLoading.set(false);
+        if (response.success && response.data) {
+          this._user.set(response.data);
+          this.toastService.success('Profile updated successfully');
+        } else {
+          this.toastService.error(response.message ?? 'Update failed');
+        }
+      },
+      error: (err) => {
+        this._isLoading.set(false);
+        this.toastService.error(err.error?.message ?? 'Update failed. Please try again.');
+      },
+    });
+  }
+
+  deleteProfile(): void {
+    this._isLoading.set(true);
+
+    this.authService.deleteProfile().subscribe({
+      next: () => {
+        this._isLoading.set(false);
+        this._user.set(null);
+        this._codeSent.set(false);
+        this.toastService.info('Account deleted');
+        this.router.navigate(['/sign-in']);
+      },
+      error: (err) => {
+        this._isLoading.set(false);
+        this.toastService.error(err.error?.message ?? 'Failed to delete account');
+      },
+    });
+  }
+
   logout(): void {
     this._user.set(null);
-    this._token.set(null);
     this._codeSent.set(false);
-    localStorage.removeItem('token');
     this.toastService.info('You have been signed out');
     this.router.navigate(['/sign-in']);
   }
 
   resetCodeSent(): void {
     this._codeSent.set(false);
+  }
+
+  googleLogin(): void {
+    this._isLoadingGoogle.set(true);
+    window.location.href = "http://localhost:8080/auth/google/login"
   }
 }

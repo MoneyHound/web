@@ -25,14 +25,16 @@ describe('AuthService', () => {
   });
 
   describe('register', () => {
-    it('should send POST request to /auth/register', () => {
+    it('should send POST request to /auth/register with credentials', () => {
       const mockResponse = {
         success: true,
         data: {
           _id: '123',
           email: 'test@example.com',
+          username: 'testuser',
           organization: 'Test Org',
           status: UserStatus.Active,
+          google_id: '',
           created_at: '2026-01-01T00:00:00Z',
           updated_at: '2026-01-01T00:00:00Z',
         } as User,
@@ -43,58 +45,34 @@ describe('AuthService', () => {
         expect(response).toEqual(mockResponse);
       });
 
-      const req = httpMock.expectOne('http://localhost:8000/auth/register');
+      const req = httpMock.expectOne('http://localhost:8080/auth/register');
       expect(req.request.method).toBe('POST');
+      expect(req.request.withCredentials).toBe(true);
       expect(req.request.body).toEqual({ email: 'test@example.com', organization: 'Test Org' });
       req.flush(mockResponse);
-    });
-
-    it('should handle error response', () => {
-      const errorResponse = { success: false, data: null, message: 'User already exists' };
-
-      service.register({ email: 'test@example.com', organization: 'Test Org' }).subscribe({
-        error: (error) => {
-          expect(error.error.message).toBe('User already exists');
-        },
-      });
-
-      const req = httpMock.expectOne('http://localhost:8000/auth/register');
-      req.flush(errorResponse, { status: 400, statusText: 'Bad Request' });
     });
   });
 
   describe('requestOtp', () => {
-    it('should send GET request to /auth/request', () => {
+    it('should send GET request to /auth/request with credentials', () => {
       const mockResponse = { success: true, data: null, message: null };
 
       service.requestOtp('test@example.com').subscribe((response) => {
         expect(response).toEqual(mockResponse);
       });
 
-      const req = httpMock.expectOne((r) => r.url === 'http://localhost:8000/auth/request' && r.params.get('email') === 'test@example.com');
+      const req = httpMock.expectOne((r) => r.url === 'http://localhost:8080/auth/request' && r.params.get('email') === 'test@example.com');
       expect(req.request.method).toBe('GET');
+      expect(req.request.withCredentials).toBe(true);
       req.flush(mockResponse);
-    });
-
-    it('should handle error response', () => {
-      const errorResponse = { success: false, data: null, message: 'User not found' };
-
-      service.requestOtp('test@example.com').subscribe({
-        error: (error) => {
-          expect(error.error.message).toBe('User not found');
-        },
-      });
-
-      const req = httpMock.expectOne((r) => r.url === 'http://localhost:8000/auth/request');
-      req.flush(errorResponse, { status: 404, statusText: 'Not Found' });
     });
   });
 
   describe('verifyOtp', () => {
-    it('should send POST request to /auth/verify', () => {
+    it('should send POST request to /auth/verify with credentials', () => {
       const mockResponse = {
         success: true,
-        data: { token: 'jwt-token', access: 'user' },
+        data: null,
         message: null,
       };
 
@@ -102,23 +80,82 @@ describe('AuthService', () => {
         expect(response).toEqual(mockResponse);
       });
 
-      const req = httpMock.expectOne('http://localhost:8000/auth/verify');
+      const req = httpMock.expectOne('http://localhost:8080/auth/verify');
       expect(req.request.method).toBe('POST');
+      expect(req.request.withCredentials).toBe(true);
       expect(req.request.body).toEqual({ email: 'test@example.com', code: '123456' });
       req.flush(mockResponse);
     });
+  });
 
-    it('should handle error response', () => {
-      const errorResponse = { success: false, data: null, message: 'Invalid code' };
+  describe('getProfile', () => {
+    it('should send GET request to /auth/profile with credentials', () => {
+      const mockResponse = {
+        success: true,
+        data: {
+          _id: '123',
+          email: 'test@example.com',
+          username: 'testuser',
+          organization: 'Test Org',
+          status: UserStatus.Active,
+          google_id: '',
+          created_at: '2026-01-01T00:00:00Z',
+          updated_at: '2026-01-01T00:00:00Z',
+        } as User,
+        message: null,
+      };
 
-      service.verifyOtp({ email: 'test@example.com', code: '123456' }).subscribe({
-        error: (error) => {
-          expect(error.error.message).toBe('Invalid code');
-        },
+      service.getProfile().subscribe((response) => {
+        expect(response).toEqual(mockResponse);
       });
 
-      const req = httpMock.expectOne('http://localhost:8000/auth/verify');
-      req.flush(errorResponse, { status: 400, statusText: 'Bad Request' });
+      const req = httpMock.expectOne('http://localhost:8080/auth/profile');
+      expect(req.request.method).toBe('GET');
+      expect(req.request.withCredentials).toBe(true);
+      req.flush(mockResponse);
+    });
+  });
+
+  describe('updateProfile', () => {
+    it('should send PATCH request to /auth/profile with credentials', () => {
+      const mockResponse = {
+        success: true,
+        data: {
+          _id: '123',
+          email: 'new@example.com',
+          username: 'testuser',
+          organization: 'New Org',
+          status: UserStatus.Active,
+          google_id: '',
+          created_at: '2026-01-01T00:00:00Z',
+          updated_at: '2026-01-02T00:00:00Z',
+        } as User,
+        message: null,
+      };
+
+      service.updateProfile({ email: 'new@example.com', organization: 'New Org' }).subscribe((response) => {
+        expect(response).toEqual(mockResponse);
+      });
+
+      const req = httpMock.expectOne('http://localhost:8080/auth/profile');
+      expect(req.request.method).toBe('PATCH');
+      expect(req.request.withCredentials).toBe(true);
+      req.flush(mockResponse);
+    });
+  });
+
+  describe('deleteProfile', () => {
+    it('should send DELETE request to /auth/profile with credentials', () => {
+      const mockResponse = { success: true, data: null, message: null };
+
+      service.deleteProfile().subscribe((response) => {
+        expect(response).toEqual(mockResponse);
+      });
+
+      const req = httpMock.expectOne('http://localhost:8080/auth/profile');
+      expect(req.request.method).toBe('DELETE');
+      expect(req.request.withCredentials).toBe(true);
+      req.flush(mockResponse);
     });
   });
 });

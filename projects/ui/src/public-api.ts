@@ -12,3 +12,5 @@ export * from './lib/components/navbar/navbar';
 export * from './lib/components/form-group/form-group';
 export * from './lib/components/toast/toast.service';
 export * from './lib/components/toast/toast-container';
+export * from './lib/components/popup/popup.service';
+export * from './lib/components/popup/popup';

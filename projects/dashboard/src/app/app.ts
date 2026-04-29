@@ -1,10 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MhToastContainer } from 'ui';
+import { MhToastContainer, MhPopup } from 'ui';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MhToastContainer],
+  imports: [RouterOutlet, MhToastContainer, MhPopup],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
