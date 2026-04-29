@@ -18,6 +18,7 @@
       "api": ["./projects/api/src/public-api.ts"],
       "auth": ["./projects/auth/src/public-api.ts"],
       "models": ["./projects/models/src/public-api.ts"],
+      "store": ["./projects/store/src/public-api.ts"],
       "ui": ["./projects/ui/src/public-api.ts"]
     }
   },
@@ -64,6 +65,18 @@
     },
     {
       "path": "./projects/api/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/store/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/store/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/admin/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/admin/tsconfig.spec.json"
     }
   ]
 }

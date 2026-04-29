@@ -3,20 +3,23 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideRouter } from '@angular/router';
-import { of, throwError } from 'rxjs';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { Register } from './register';
-import { AuthService } from 'api';
+import { AuthStore } from 'store';
 import { MhButton, MhInput, MhFormGroup } from 'ui';
 
 describe('Register', () => {
   let component: Register;
   let fixture: ComponentFixture<Register>;
-  let authServiceMock: { register: ReturnType<typeof vi.fn> };
+  let authStoreMock: {
+    register: ReturnType<typeof vi.fn>;
+    isLoading: ReturnType<typeof vi.fn>;
+  };
 
   beforeEach(async () => {
-    authServiceMock = {
+    authStoreMock = {
       register: vi.fn(),
+      isLoading: vi.fn(() => false),
     };
 
     await TestBed.configureTestingModule({
@@ -25,7 +28,7 @@ describe('Register', () => {
         provideHttpClient(),
         provideHttpClientTesting(),
         provideRouter([]),
-        { provide: AuthService, useValue: authServiceMock },
+        { provide: AuthStore, useValue: authStoreMock },
       ],
     }).compileComponents();
 
@@ -90,7 +93,7 @@ describe('Register', () => {
   describe('onSubmit', () => {
     it('should not call register if form is invalid', () => {
       component.onSubmit();
-      expect(authServiceMock.register).not.toHaveBeenCalled();
+      expect(authStoreMock.register).not.toHaveBeenCalled();
     });
 
     it('should mark all fields as touched if form is invalid', () => {
@@ -99,57 +102,15 @@ describe('Register', () => {
       expect(component.form.get('organization')?.touched).toBe(true);
     });
 
-    it('should call register with form data when valid', () => {
-      authServiceMock.register.mockReturnValue(of({ success: true, data: null, message: null }));
-
+    it('should call authStore.register with form data when valid', () => {
       component.form.get('email')?.setValue('test@example.com');
       component.form.get('organization')?.setValue('Test Org');
       component.onSubmit();
 
-      expect(authServiceMock.register).toHaveBeenCalledWith({
+      expect(authStoreMock.register).toHaveBeenCalledWith({
         email: 'test@example.com',
         organization: 'Test Org',
       });
-    });
-
-    it('should set loading state during registration', () => {
-      authServiceMock.register.mockReturnValue(of({ success: true, data: null, message: null }));
-
-      component.form.get('email')?.setValue('test@example.com');
-      component.form.get('organization')?.setValue('Test Org');
-      component.onSubmit();
-
-      expect(component.isLoading).toBe(false);
-    });
-
-    it('should set error message on registration failure', () => {
-      authServiceMock.register.mockReturnValue(of({ success: false, data: null, message: 'User already exists' }));
-
-      component.form.get('email')?.setValue('test@example.com');
-      component.form.get('organization')?.setValue('Test Org');
-      component.onSubmit();
-
-      expect(component.error).toBe('User already exists');
-    });
-
-    it('should set error message on HTTP error', () => {
-      authServiceMock.register.mockReturnValue(throwError(() => ({ error: { message: 'Server error' } })));
-
-      component.form.get('email')?.setValue('test@example.com');
-      component.form.get('organization')?.setValue('Test Org');
-      component.onSubmit();
-
-      expect(component.error).toBe('Server error');
-    });
-
-    it('should set default error message on HTTP error without message', () => {
-      authServiceMock.register.mockReturnValue(throwError(() => ({})));
-
-      component.form.get('email')?.setValue('test@example.com');
-      component.form.get('organization')?.setValue('Test Org');
-      component.onSubmit();
-
-      expect(component.error).toBe('Registration failed. Please try again.');
     });
   });
 });

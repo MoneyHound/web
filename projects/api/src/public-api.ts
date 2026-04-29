@@ -3,4 +3,4 @@
  */
 
 export * from './lib/api';
-export * from './lib/auth.service';
+export * from './lib/auth/auth.service';

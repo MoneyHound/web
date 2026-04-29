@@ -1,10 +1,6 @@
 <div class="register-container">
   <h1>Register</h1>
 
-  @if (error) {
-    <div class="error-message">{{ error }}</div>
-  }
-
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <mh-form-group
       label="Email"
@@ -41,9 +37,9 @@
       variant="primary"
       size="lg"
       type="submit"
-      [disabled]="isLoading || form.invalid"
+      [disabled]="isLoading() || form.invalid"
     >
-      @if (isLoading) {
+      @if (isLoading()) {
         Registering...
       } @else {
         Register
@@ -52,7 +48,6 @@
   </form>
 
   <p class="auth-link">
-    Already have an account? <a mh-button [variant]="'ghost'" [size]="'sm'" [href]="signIn()">Sign In</a>
-
+    Already have an account? <a mh-button [variant]="'ghost'" [size]="'sm'" [href]="signInRoute()">Sign In</a>
   </p>
 </div>

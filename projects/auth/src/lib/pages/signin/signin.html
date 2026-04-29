@@ -1,10 +1,6 @@
 <div class="signin-container">
   <h1>Sign In</h1>
 
-  @if (error) {
-    <div class="error-message">{{ error }}</div>
-  }
-
   <form [formGroup]="form">
     <mh-form-group
       label="Email"
@@ -18,11 +14,11 @@
         id="email"
         formControlName="email"
         placeholder="Enter your email"
-        [disabled]="codeSent"
+        [disabled]="codeSent()"
       />
     </mh-form-group>
 
-    @if (codeSent) {
+    @if (codeSent()) {
       <mh-form-group
         label="Verification Code"
         for="code"
@@ -44,10 +40,10 @@
         variant="primary"
         size="lg"
         type="button"
-        [disabled]="isLoading || form.invalid"
+        [disabled]="isLoading() || form.invalid"
         (click)="onVerifyCode()"
       >
-        @if (isLoading) {
+        @if (isLoading()) {
           Verifying...
         } @else {
           Verify Code
@@ -59,10 +55,10 @@
         variant="primary"
         size="lg"
         type="button"
-        [disabled]="isLoading || form.get('email')?.invalid"
+        [disabled]="isLoading() || form.get('email')?.invalid"
         (click)="onRequestCode()"
       >
-        @if (isLoading) {
+        @if (isLoading()) {
           Sending...
         } @else {
           Send Code
@@ -72,6 +68,6 @@
   </form>
 
   <p class="auth-link">
-    Don't have an account? <a mh-button [variant]="'ghost'" [size]="'sm'" [href]="signIn()">Register</a>
+    Don't have an account? <a mh-button [variant]="'ghost'" [size]="'sm'" [href]="registerRoute()">Register</a>
   </p>
 </div>
