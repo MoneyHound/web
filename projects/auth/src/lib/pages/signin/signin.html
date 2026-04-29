@@ -49,6 +49,14 @@
           Verify Code
         }
       </button>
+
+      @if (resendWait() > 0) {
+        <p class="signin__resend">Resend available in {{ resendWait() }}s</p>
+      } @else {
+        <button mh-button [variant]="'ghost'" [size]="'sm'" type="button" (click)="onResendCode()">
+          Resend Code
+        </button>
+      }
     } @else {
       <button
         mh-button
@@ -70,4 +78,18 @@
   <p class="auth-link">
     Don't have an account? <a mh-button [variant]="'ghost'" [size]="'sm'" [href]="registerRoute()">Register</a>
   </p>
+
+  <button
+    mh-button
+    variant="secondary"
+    size="lg"
+    (click)="continueWithGoogle()"
+    [disabled]="isLoadingGoogle()"
+  >
+    @if (isLoadingGoogle()) {
+      Loading...
+    } @else {
+      Continue with Google
+    }
+  </button>
 </div>

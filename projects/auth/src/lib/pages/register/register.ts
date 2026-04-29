@@ -12,7 +12,7 @@ import { CreateUser } from 'models';
 })
 export class Register {
   private readonly authStore = inject(AuthStore);
-  protected readonly signInRoute = signal('/sign-in');
+  protected readonly signInRoute = signal('/signin');
   private readonly fb = inject(FormBuilder);
 
   readonly form = this.fb.group({

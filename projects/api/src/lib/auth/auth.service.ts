@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User, CreateUser, VerifyOTP, DataResponse, UpdateProfile } from 'models';
+import { User, CreateUser, VerifyOTP, DataResponse, UpdateProfile, OTP } from 'models';
 
 @Injectable({
   providedIn: 'root',
@@ -16,8 +16,8 @@ export class AuthService {
     });
   }
 
-  requestOtp(email: string): Observable<DataResponse<null>> {
-    return this.http.get<DataResponse<null>>(`${this.baseUrl}/auth/request`, {
+  requestOtp(email: string): Observable<DataResponse<OTP>> {
+    return this.http.get<DataResponse<OTP>>(`${this.baseUrl}/auth/request`, {
       params: { email },
       withCredentials: true,
     });

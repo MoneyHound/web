@@ -22,6 +22,8 @@ export class SignIn {
   // Expose store signals to template
   readonly isLoading = this.authStore.isLoading;
   readonly codeSent = this.authStore.codeSent;
+  readonly resendWait = this.authStore.resendWait;
+  readonly isLoadingGoogle = this.authStore.isLoadingGoogle;
 
   onRequestCode(): void {
     if (this.form.get('email')?.invalid) {
@@ -42,5 +44,14 @@ export class SignIn {
       email: this.form.get('email')?.value ?? '',
       code: this.form.get('code')?.value ?? '',
     });
+  }
+
+  onResendCode(): void {
+    this.authStore.resetCodeSent();
+    this.onRequestCode();
+  }
+
+  continueWithGoogle(): void {
+    this.authStore.googleLogin()
   }
 }

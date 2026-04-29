@@ -10,6 +10,6 @@ import { MhLogo } from '../logo/logo';
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
 })
-export class Navbar {
+export class MHNavbar {
   protected readonly dashboardUrl = signal('/register');
 }

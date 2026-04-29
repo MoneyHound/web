@@ -1,0 +1,48 @@
+<section class="home">
+  <div class="home__container">
+    <div class="home__header">
+      <div>
+        <h1 class="home__title">Welcome back{{ authStore.user()?.username ? ', ' + authStore.user()?.username : '' }}</h1>
+        <p class="home__subtitle">Manage your account and simulations</p>
+      </div>
+      <button mh-button variant="secondary" size="sm" (click)="authStore.logout()">
+        <span class="material-icons" style="font-size: 18px; margin-right: 6px;">logout</span>
+        Sign Out
+      </button>
+    </div>
+
+    <div class="home__cards">
+      <div class="home__card">
+        <span class="material-icons home__card-icon">mail</span>
+        <div class="home__card-content">
+          <span class="home__card-label">Email</span>
+          <span class="home__card-value">{{ authStore.user()?.email ?? '—' }}</span>
+        </div>
+      </div>
+
+      <div class="home__card">
+        <span class="material-icons home__card-icon">business</span>
+        <div class="home__card-content">
+          <span class="home__card-label">Organization</span>
+          <span class="home__card-value">{{ authStore.user()?.organization || '—' }}</span>
+        </div>
+      </div>
+
+      <div class="home__card">
+        <span class="material-icons home__card-icon">verified_user</span>
+        <div class="home__card-content">
+          <span class="home__card-label">Status</span>
+          <span class="home__card-value home__card-value--status">{{ authStore.user()?.status === 0 ? 'Active' : 'Inactive' }}</span>
+        </div>
+      </div>
+
+      <div class="home__card">
+        <span class="material-icons home__card-icon">calendar_today</span>
+        <div class="home__card-content">
+          <span class="home__card-label">Joined</span>
+          <span class="home__card-value">{{ authStore.user()?.created_at | date:'mediumDate' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Navbar, Footer, MhToastContainer, MhPopup } from 'ui';
+import { MHFooter, MHNavbar, MhToastContainer, MhPopup } from 'ui';
 
 @Component({
   selector: 'app-root',
-  imports: [Navbar, RouterOutlet, Footer, MhToastContainer, MhPopup],
+  imports: [MHFooter, MHNavbar, RouterOutlet, MhToastContainer, MhPopup],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

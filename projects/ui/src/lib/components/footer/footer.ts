@@ -9,4 +9,4 @@ import { MhLogo } from '../logo/logo';
   templateUrl: './footer.html',
   styleUrl: './footer.scss',
 })
-export class Footer {}
+export class MHFooter {}

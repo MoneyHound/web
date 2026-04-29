@@ -29,6 +29,10 @@ export interface Token {
   access: string;
 }
 
+export interface OTP {
+  resend_wait: number;
+}
+
 export interface UpdateProfile {
   email?: string | null;
   organization?: string | null;

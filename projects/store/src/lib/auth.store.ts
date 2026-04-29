@@ -18,11 +18,13 @@ export class AuthStore {
   private readonly _isLoading = signal(false);
   private readonly _codeSent = signal(false);
   private readonly _isLoadingGoogle = signal(false);
+  private readonly _resendWait = signal(0);
 
   // Public readonly signals
   readonly user = this._user.asReadonly();
   readonly isLoading = this._isLoading.asReadonly();
   readonly codeSent = this._codeSent.asReadonly();
+  readonly resendWait = this._resendWait.asReadonly();
   readonly isLoadingGoogle = this._isLoadingGoogle.asReadonly();
 
   // Computed signals
@@ -39,7 +41,7 @@ export class AuthStore {
         if (response.success && response.data) {
           this._user.set(response.data);
           this.toastService.success('Registration successful! Please sign in.');
-          this.router.navigate(['/sign-in']);
+          this.router.navigate(['/signin']);
         } else {
           this.toastService.error(response.message ?? 'Registration failed');
         }
@@ -60,6 +62,9 @@ export class AuthStore {
         if (response.success) {
           this._codeSent.set(true);
           this.toastService.success('Verification code sent to your email');
+          if (response.data?.resend_wait) {
+            this.startResendCountdown(response.data.resend_wait);
+          }
         } else {
           this.toastService.error(response.message ?? 'Failed to send code');
         }
@@ -69,6 +74,19 @@ export class AuthStore {
         this.toastService.error(err.error?.message ?? 'Failed to send code. Please try again.');
       },
     });
+  }
+
+  private startResendCountdown(seconds: number): void {
+    this._resendWait.set(seconds);
+    const interval = setInterval(() => {
+      const current = this._resendWait();
+      if (current <= 1) {
+        this._resendWait.set(0);
+        clearInterval(interval);
+      } else {
+        this._resendWait.set(current - 1);
+      }
+    }, 1000);
   }
 
   verifyOtp(data: VerifyOTP): void {
@@ -92,13 +110,19 @@ export class AuthStore {
     });
   }
 
-  fetchProfile(): void {
-    this.authService.getProfile().subscribe({
-      next: (response) => {
-        if (response.success && response.data) {
-          this._user.set(response.data);
-        }
-      },
+  fetchProfile(): Promise<void> {
+    return new Promise((resolve) => {
+      this.authService.getProfile().subscribe({
+        next: (response) => {
+          if (response.success && response.data) {
+            this._user.set(response.data);
+          }
+          resolve();
+        },
+        error: () => {
+          resolve();
+        },
+      });
     });
   }
 
@@ -131,7 +155,7 @@ export class AuthStore {
         this._user.set(null);
         this._codeSent.set(false);
         this.toastService.info('Account deleted');
-        this.router.navigate(['/sign-in']);
+        this.router.navigate(['/signin']);
       },
       error: (err) => {
         this._isLoading.set(false);
@@ -144,7 +168,7 @@ export class AuthStore {
     this._user.set(null);
     this._codeSent.set(false);
     this.toastService.info('You have been signed out');
-    this.router.navigate(['/sign-in']);
+    this.router.navigate(['/signin']);
   }
 
   resetCodeSent(): void {
