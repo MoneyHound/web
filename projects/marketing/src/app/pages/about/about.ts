@@ -9,13 +9,13 @@ import { Component, signal } from '@angular/core';
 export class About {
   protected readonly values = signal([
     {
-      icon: 'precision',
+      icon: 'gps_fixed',
       title: 'Precise',
       description:
         'Every signal earns its place. Decorative noise dilutes insight — if it doesn\'t communicate something, we remove it.',
     },
     {
-      icon: 'trust',
+      icon: 'verified_user',
       title: 'Trustworthy',
       description:
         'Consistent, auditable, and built for the teams who guard financial systems. Trust is earned through reliability.',

@@ -55,8 +55,7 @@
 }
 
 .toast__icon {
-  font-size: 1rem;
-  font-weight: bold;
+  font-size: 1.25rem;
 }
 
 .toast__message {
@@ -75,7 +74,7 @@
   background: transparent;
   cursor: pointer;
   opacity: 0.6;
-  font-size: 0.75rem;
+  font-size: 1.125rem;
   border-radius: 0.25rem;
 
   &:hover {

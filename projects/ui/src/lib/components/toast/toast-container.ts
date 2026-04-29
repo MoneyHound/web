@@ -13,13 +13,13 @@ export class MhToastContainer {
   getIcon(type: string): string {
     switch (type) {
       case 'success':
-        return '✓';
+        return 'check_circle';
       case 'error':
-        return '✕';
+        return 'cancel';
       case 'warning':
-        return '⚠';
+        return 'warning';
       default:
-        return 'ℹ';
+        return 'info';
     }
   }
 }
