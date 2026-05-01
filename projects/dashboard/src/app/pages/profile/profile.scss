@@ -1,21 +1,21 @@
-.home {
+.profile {
   padding: 32px 24px;
   flex: 1;
 }
 
-.home__container {
+.profile__container {
   max-width: 960px;
   margin-inline: auto;
 }
 
-.home__header {
+.profile__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 32px;
 }
 
-.home__title {
+.profile__title {
   font-family: 'Syne', sans-serif;
   font-weight: 800;
   font-size: 28px;
@@ -23,19 +23,19 @@
   color: var(--text);
 }
 
-.home__subtitle {
+.profile__subtitle {
   font-size: 14px;
   color: var(--text2);
   margin-top: 4px;
 }
 
-.home__cards {
+.profile__cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
 }
 
-.home__card {
+.profile__card {
   display: flex;
   align-items: center;
   gap: 16px;
@@ -50,7 +50,7 @@
   }
 }
 
-.home__card-icon {
+.profile__card-icon {
   font-size: 24px;
   color: var(--gold);
   background: var(--gold-glow);
@@ -63,13 +63,13 @@
   justify-content: center;
 }
 
-.home__card-content {
+.profile__card-content {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-.home__card-label {
+.profile__card-label {
   font-family: 'DM Mono', monospace;
   font-size: 11px;
   letter-spacing: 1px;
@@ -77,7 +77,7 @@
   color: var(--muted);
 }
 
-.home__card-value {
+.profile__card-value {
   font-size: 15px;
   font-weight: 500;
   color: var(--text);
@@ -88,21 +88,21 @@
 }
 
 @media (max-width: 767px) {
-  .home {
+  .profile {
     padding: 24px 16px;
   }
 
-  .home__header {
+  .profile__header {
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
   }
 
-  .home__cards {
+  .profile__cards {
     grid-template-columns: 1fr;
   }
 
-  .home__title {
+  .profile__title {
     font-size: 22px;
   }
 }

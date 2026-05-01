@@ -3,11 +3,11 @@ import { AuthStore } from 'store';
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-profile',
   imports: [DatePipe],
-  templateUrl: './home.html',
-  styleUrl: './home.scss',
+  templateUrl: './profile.html',
+  styleUrl: './profile.scss',
 })
-export class Home {
+export class Profile {
   protected readonly authStore = inject(AuthStore);
 }

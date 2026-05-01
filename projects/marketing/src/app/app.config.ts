@@ -8,21 +8,24 @@ import { routes } from './app.routes';
 import { APP_CONFIG } from 'models';
 import { environment } from '../environments/environment.prod';
 
-export const apiErrorHandler = (error: HttpErrorResponse): void => {
-  const toastService = inject(ToastService);
-  if (error.status === 0) {
-    toastService.error('Unable to connect to the server. Check your internet connection and try again.');
-  } else if (error.status >= 500) {
-    toastService.error('Server error. Please try again later.');
-  }
-};
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(withInterceptors([apiInterceptor])),
-    { provide: API_ERROR_HANDLER, useValue: apiErrorHandler },
-    { provide: APP_CONFIG, useValue: environment }
+    {
+      provide: API_ERROR_HANDLER,
+      useFactory: () => {
+        const toastService = inject(ToastService);
+        return (error: HttpErrorResponse) => {
+          if (error.status === 0) {
+            toastService.error('Unable to connect to the server. Check your internet connection and try again.');
+          } else if (error.status >= 500) {
+            toastService.error('Server error. Please try again later.');
+          }
+        };
+      },
+    },
+    { provide: APP_CONFIG, useValue: environment },
   ],
 };

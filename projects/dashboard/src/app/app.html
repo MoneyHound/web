@@ -10,6 +10,7 @@
     [items]="navItems"
     [userName]="authStore.user()?.username ?? ''"
     [userEmail]="authStore.user()?.email ?? ''"
+    [logoLink]="marketingUrl ?? ''"
     (logout)="authStore.logout()"
   />
 }

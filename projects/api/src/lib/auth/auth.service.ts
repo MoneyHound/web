@@ -48,7 +48,7 @@ export class AuthService {
   }
 
   logout(): Observable<DataResponse<null>> {
-    return this.http.post<DataResponse<null>>(`${this.config.apiUrl}/auth/logout`, {
+    return this.http.post<DataResponse<null>>(`${this.config.apiUrl}/auth/logout`, null, {
       withCredentials: true,
     });
   }

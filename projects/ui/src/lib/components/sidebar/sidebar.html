@@ -1,8 +1,10 @@
 <aside class="sidebar" [class.sidebar--collapsed]="isCollapsed">
   <div class="sidebar__header">
-    <img src="assets/ui/logo-small.png" alt="MoneyHound" class="sidebar__logo" />
+    <a class="sidebar__logo-link" [href]="logoLink()">
+      <img src="assets/ui/logo-small.png" alt="MoneyHound" class="sidebar__logo" />
+    </a>
     @if (!isCollapsed) {
-      <span class="sidebar__brand">MoneyHound</span>
+      <a class="sidebar__brand" [href]="logoLink()">MoneyHound</a>
     }
   </div>
 
@@ -24,13 +26,13 @@
 
   <div class="sidebar__footer">
     @if (!isCollapsed) {
-      <div class="sidebar__user">
+      <a class="sidebar__user" routerLink="/profile">
         <span class="material-icons sidebar__user-avatar">account_circle</span>
         <div class="sidebar__user-info">
           <span class="sidebar__user-name">{{ userName() }}</span>
           <span class="sidebar__user-email">{{ userEmail() }}</span>
         </div>
-      </div>
+      </a>
     }
     <button class="sidebar__logout" type="button" (click)="logout.emit()">
       <span class="material-icons">logout</span>

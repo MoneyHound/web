@@ -18,6 +18,7 @@ export class MhSidebar {
   readonly items = input<SidebarItem[]>([]);
   readonly userName = input('');
   readonly userEmail = input('');
+  readonly logoLink = input('/');
   readonly logout = output();
 
   static readonly _collapsed = signal(false);
