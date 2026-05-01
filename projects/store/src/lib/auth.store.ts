@@ -1,4 +1,4 @@
-import { Injectable, inject, signal, computed } from '@angular/core';
+import { Injectable, inject, signal, computed, WritableSignal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'api';
 import { ToastService, PopupService } from 'ui';
@@ -135,12 +135,13 @@ export class AuthStore {
     });
   }
 
-  updateProfile(data: UpdateProfile): void {
+  updateProfile(data: UpdateProfile, isEditing: WritableSignal<boolean>): void {
     this._isLoading.set(true);
 
     this.authService.updateProfile(data).subscribe({
       next: (response) => {
         this._isLoading.set(false);
+        isEditing.set(false);
         if (response.success && response.data) {
           this._user.set(response.data);
           this.toastService.success('Profile updated successfully');

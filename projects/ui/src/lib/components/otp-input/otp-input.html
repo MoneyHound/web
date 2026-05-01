@@ -1,0 +1,32 @@
+<mh-form-group
+  label="Verification code"
+  for="code"
+  [control]="control()"
+  [errors]="{ required: 'Code is required', minlength: 'Code must be 6 digits' }"
+>
+  <div class="otp-input__row">
+    <input
+      mh-input
+      type="text"
+      id="code"
+      formControlName="code"
+      placeholder="Enter 6-digit code"
+    />
+    <button
+      mh-button
+      variant="secondary"
+      size="sm"
+      type="button"
+      [disabled]="loading() || (codeSent() && resendWait() > 0)"
+      (click)="sendCode.emit()"
+    >
+      @if (resendWait() > 0 && codeSent()) {
+        Resend in {{ resendWait() }}s
+      } @else if (codeSent()) {
+        Resend code
+      } @else {
+        Send code
+      }
+    </button>
+  </div>
+</mh-form-group>

@@ -5,40 +5,106 @@
         <h1 class="profile__title">Welcome back{{ authStore.user()?.username ? ', ' + authStore.user()?.username : '' }}</h1>
         <p class="profile__subtitle">Manage your account</p>
       </div>
+      @if (!isEditing()) {
+        <button mh-button variant="secondary" size="sm" type="button" (click)="toggleEdit()">
+          Edit profile
+        </button>
+      }
     </div>
 
-    <div class="profile__cards">
-      <div class="profile__card">
-        <span class="material-icons profile__card-icon">mail</span>
-        <div class="profile__card-content">
-          <span class="profile__card-label">Email</span>
-          <span class="profile__card-value">{{ authStore.user()?.email ?? '—' }}</span>
-        </div>
-      </div>
+    @if (isEditing()) {
+      <form class="profile__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <mh-form-group
+          label="Email"
+          for="email"
+          [control]="form.get('email')"
+          [errors]="{ required: 'Email is required', email: 'Please enter a valid email' }"
+        >
+          <input
+            mh-input
+            type="email"
+            id="email"
+            formControlName="email"
+            placeholder="Enter your email"
+          />
+        </mh-form-group>
 
-      <div class="profile__card">
-        <span class="material-icons profile__card-icon">business</span>
-        <div class="profile__card-content">
-          <span class="profile__card-label">Organization</span>
-          <span class="profile__card-value">{{ authStore.user()?.organization || '—' }}</span>
-        </div>
-      </div>
+        @if (emailChanged()) {
+          <mh-otp-input
+            [codeSent]="codeSent()"
+            [resendWait]="resendWait()"
+            [loading]="isLoading()"
+            [control]="form.get('code')"
+            (sendCode)="onRequestCode()"
+          />
+        }
 
-      <div class="profile__card">
-        <span class="material-icons profile__card-icon">verified_user</span>
-        <div class="profile__card-content">
-          <span class="profile__card-label">Status</span>
-          <span class="profile__card-value profile__card-value--status">{{ authStore.user()?.status === 0 ? 'Active' : 'Inactive' }}</span>
-        </div>
-      </div>
+        <mh-form-group
+          label="Organization"
+          for="organization"
+          [control]="form.get('organization')"
+          [errors]="{ minlength: 'Organization must be at least 3 characters' }"
+        >
+          <input
+            mh-input
+            type="text"
+            id="organization"
+            formControlName="organization"
+            placeholder="Enter your organization"
+          />
+        </mh-form-group>
 
-      <div class="profile__card">
-        <span class="material-icons profile__card-icon">calendar_today</span>
-        <div class="profile__card-content">
-          <span class="profile__card-label">Joined</span>
-          <span class="profile__card-value">{{ authStore.user()?.created_at | date:'mediumDate' }}</span>
+        <div class="profile__form-actions">
+          <button mh-button variant="primary" type="submit" [disabled]="isLoading() || form.invalid || (emailChanged() && !codeSent())">
+            @if (isLoading()) {
+              Saving...
+            } @else {
+              Save changes
+            }
+          </button>
+          <button mh-button variant="ghost" type="button" (click)="toggleEdit()">Cancel</button>
+        </div>
+      </form>
+    } @else {
+      <div class="profile__cards">
+        <div class="profile__card">
+          <span class="material-icons profile__card-icon">mail</span>
+          <div class="profile__card-content">
+            <span class="profile__card-label">Email</span>
+            <span class="profile__card-value">{{ authStore.user()?.email ?? '—' }}</span>
+          </div>
+        </div>
+
+        <div class="profile__card">
+          <span class="material-icons profile__card-icon">business</span>
+          <div class="profile__card-content">
+            <span class="profile__card-label">Organization</span>
+            <span class="profile__card-value">{{ authStore.user()?.organization || '—' }}</span>
+          </div>
+        </div>
+
+        <div class="profile__card">
+          <span class="material-icons profile__card-icon">verified_user</span>
+          <div class="profile__card-content">
+            <span class="profile__card-label">Status</span>
+            <span class="profile__card-value profile__card-value--status">{{ authStore.user()?.status === 0 ? 'Active' : 'Inactive' }}</span>
+          </div>
+        </div>
+
+        <div class="profile__card">
+          <span class="material-icons profile__card-icon">calendar_today</span>
+          <div class="profile__card-content">
+            <span class="profile__card-label">Joined</span>
+            <span class="profile__card-value">{{ authStore.user()?.created_at | date:'mediumDate' }}</span>
+          </div>
         </div>
       </div>
+    }
+
+    <div class="profile__danger">
+      <h3 class="profile__danger-title">Delete account</h3>
+      <p class="profile__danger-text">Permanently delete your account and all associated data. This action cannot be undone.</p>
+      <button mh-button variant="danger" size="sm" type="button" (click)="onDelete()">Delete account</button>
     </div>
   </div>
 </section>

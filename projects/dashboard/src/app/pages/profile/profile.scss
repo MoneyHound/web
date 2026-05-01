@@ -87,6 +87,40 @@
   }
 }
 
+.profile__form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 480px;
+}
+
+.profile__form-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.profile__danger {
+  margin-top: 48px;
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.profile__danger-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.profile__danger-text {
+  font-size: 14px;
+  color: var(--text2);
+  margin-bottom: 16px;
+}
+
 @media (max-width: 767px) {
   .profile {
     padding: 24px 16px;

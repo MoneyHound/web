@@ -36,6 +36,7 @@ export interface OTP {
 export interface UpdateProfile {
   email?: string | null;
   organization?: string | null;
+  code?: string | null;
 }
 
 export interface DataResponse<T> {

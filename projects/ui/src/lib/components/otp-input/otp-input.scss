@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.otp-input__row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.otp-input__row input {
+  flex: 1;
+}
+
+.otp-input__row button {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
