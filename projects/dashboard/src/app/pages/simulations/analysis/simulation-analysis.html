@@ -1,0 +1,18 @@
+@if (isLoading()) {
+  <div class="simulation-analysis__loading">
+    <span class="material-symbols-outlined simulation-analysis__loading-icon">hourglass_empty</span>
+    <p>Loading analysis...</p>
+  </div>
+} @else if (analysis()) {
+  <div class="simulation-analysis">
+    <h3 class="simulation-analysis__title">Numerical Summary</h3>
+    <div class="simulation-analysis__grid">
+      @for (entry of analysis()!.numerical | keyvalue; track entry.key) {
+        <div class="simulation-analysis__item">
+          <span class="simulation-analysis__label">{{ entry.key }}</span>
+          <span class="simulation-analysis__value">{{ entry.value | number:'1.0-2' }}</span>
+        </div>
+      }
+    </div>
+  </div>
+}

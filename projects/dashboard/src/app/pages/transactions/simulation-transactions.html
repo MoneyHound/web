@@ -1,0 +1,94 @@
+@if (isLoading() && transactions().length === 0) {
+  <div class="simulation-transactions__loading">
+    <span class="material-symbols-outlined simulation-transactions__loading-icon">hourglass_empty</span>
+    <p>Loading transactions...</p>
+  </div>
+} @else if (transactions().length === 0) {
+  <div class="simulation-transactions__empty">
+    <span class="material-symbols-outlined simulation-transactions__empty-icon">receipt_long</span>
+    <p>No transactions yet</p>
+  </div>
+} @else {
+  <div class="simulation-transactions__toolbar">
+    <span class="simulation-transactions__page-info">Page {{ pagination.page() }} of {{ pagination.totalPages() }}</span>
+    <div class="simulation-transactions__page-size">
+      <label class="simulation-transactions__page-size-label" for="page-size">Per page</label>
+      <select id="page-size" class="simulation-transactions__select" [value]="pagination.pageSize()" (change)="onPageSizeChange($event)">
+        @for (size of pageSizes; track size) {
+          <option [value]="size">{{ size }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="simulation-transactions__table-wrapper">
+    <table class="simulation-transactions__table">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Holder</th>
+          <th>Related</th>
+          <th>Amount</th>
+          <th>Category</th>
+          <th>Type</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (tx of transactions(); track tx._id) {
+          <tr>
+            <td>{{ tx.time | date:'short' }}</td>
+            <td class="simulation-transactions__truncate">{{ tx.holder }}</td>
+            <td class="simulation-transactions__truncate">{{ tx.related }}</td>
+            <td>{{ tx.amount | number:'1.0-2' }}</td>
+            <td>
+              <span class="simulation-transactions__badge simulation-transactions__badge--category">{{ tx.category }}</span>
+            </td>
+            <td>
+              <span class="simulation-transactions__badge" [class]="'simulation-transactions__badge--' + tx.type.toLowerCase()">{{ tx.type }}</span>
+            </td>
+            <td>
+              <span class="simulation-transactions__badge" [class]="'simulation-transactions__badge--' + tx.status.toLowerCase()">{{ tx.status }}</span>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (pagination.totalPages() > 1) {
+    <nav class="simulation-transactions__pagination">
+      <button
+        class="simulation-transactions__page-btn"
+        type="button"
+        [disabled]="pagination.page() <= 1 || isLoading()"
+        (click)="goToPage(pagination.page() - 1)"
+      >
+        <span class="material-symbols-outlined">chevron_left</span>
+      </button>
+      @for (p of pagination.pages(); track p) {
+        @if (p === -1) {
+          <span class="simulation-transactions__page-ellipsis">&hellip;</span>
+        } @else {
+          <button
+            class="simulation-transactions__page-btn"
+            [class.simulation-transactions__page-btn--active]="p === pagination.page()"
+            type="button"
+            [disabled]="isLoading()"
+            (click)="goToPage(p)"
+          >
+            {{ p }}
+          </button>
+        }
+      }
+      <button
+        class="simulation-transactions__page-btn"
+        type="button"
+        [disabled]="pagination.page() >= pagination.totalPages() || isLoading()"
+        (click)="goToPage(pagination.page() + 1)"
+      >
+        <span class="material-symbols-outlined">chevron_right</span>
+      </button>
+    </nav>
+  }
+}

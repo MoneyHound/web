@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MhButton, MhInput, MhFormGroup } from 'ui';
 import { AuthStore } from 'store';
@@ -10,7 +10,7 @@ import { CreateUser } from 'models';
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
-export class Register {
+export class Register implements OnInit {
   private readonly authStore = inject(AuthStore);
   protected readonly signInRoute = signal('/signin');
   private readonly fb = inject(FormBuilder);
@@ -23,6 +23,10 @@ export class Register {
   // Expose store signals to template
   readonly isLoading = this.authStore.isLoading;
   readonly isLoadingGoogle = this.authStore.isLoadingGoogle
+
+  ngOnInit(): void {
+    this.authStore.fetchProfile('/');
+  }
 
   onSubmit(): void {
     if (this.form.invalid) {

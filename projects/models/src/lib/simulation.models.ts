@@ -1,5 +1,6 @@
 export enum SimulationStatus {
   Pending = 'PENDING',
+  Running = 'RUNNING',
   Complete = 'COMPLETE',
   Failed = 'FAILED',
 }

@@ -5,17 +5,43 @@ import { SimulationStore } from 'store';
 import { Simulation, SimulationStatus } from 'models';
 import { MhButton, MhSimulationCard, PopupService } from 'ui';
 import { provideRouter } from '@angular/router';
+import { PaginationService } from 'store';
+
+const mockSimulation: Simulation = {
+  _id: '1',
+  title: 'Test Sim',
+  description: null,
+  num_banks: 3,
+  min_num_user: 10,
+  fraudulence: 0.05,
+  latitude: 6.5244,
+  longitude: 3.3792,
+  radius: 10000,
+  min_amount: 100,
+  max_amount: 100000000000,
+  author_id: 'user1',
+  status: SimulationStatus.Complete,
+  days: 7,
+  created_at: '2024-01-15T00:00:00Z',
+  updated_at: '2024-01-15T00:00:00Z',
+};
 
 function createStoreMock(sims: Simulation[] = [], more = false) {
+  const pagination = new PaginationService();
+  if (more) {
+    (pagination as any)._hasMore.set(true);
+    (pagination as any)._totalPages.set(3);
+  }
+
   return {
     simulations: vi.fn(() => sims),
     isLoading: vi.fn(() => false),
     isCreating: vi.fn(() => false),
     hasSimulations: vi.fn(() => sims.length > 0),
-    hasMore: vi.fn(() => more),
     fetchSimulations: vi.fn(),
     createSimulation: vi.fn(),
-    loadMore: vi.fn(),
+    setPageSize: vi.fn(),
+    pagination,
   };
 }
 
@@ -72,43 +98,40 @@ describe('Simulations', () => {
 });
 
 describe('Simulations with data', () => {
-  const mockSim: Simulation = {
-    _id: '1',
-    title: 'Test Sim',
-    description: null,
-    num_banks: 3,
-    min_num_user: 10,
-    fraudulence: 0.05,
-    latitude: 6.5244,
-    longitude: 3.3792,
-    radius: 10000,
-    min_amount: 100,
-    max_amount: 100000000000,
-    author_id: 'user1',
-    status: SimulationStatus.Complete,
-    days: 7,
-    created_at: '2024-01-15T00:00:00Z',
-    updated_at: '2024-01-15T00:00:00Z',
-  };
-
   it('should show simulation cards when simulations exist', () => {
-    const mock = createStoreMock([mockSim]);
+    const mock = createStoreMock([mockSimulation]);
     const fixture = setupSimulations(mock);
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('mh-simulation-card')).not.toBeNull();
   });
 
-  it('should show Load More button when hasMore is true', () => {
-    const mock = createStoreMock([mockSim], true);
+  it('should show page info when simulations exist', () => {
+    const mock = createStoreMock([mockSimulation]);
     const fixture = setupSimulations(mock);
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.textContent).toContain('Load More');
+    expect(compiled.textContent).toContain('Page 1 of');
   });
 
-  it('should call loadMore when Load More is clicked', () => {
-    const mock = createStoreMock([mockSim], true);
+  it('should call fetchSimulations with page on goToPage', () => {
+    const mock = createStoreMock([mockSimulation], true);
     const fixture = setupSimulations(mock);
-    fixture.componentInstance.loadMore();
-    expect(mock.loadMore).toHaveBeenCalled();
+    fixture.componentInstance.goToPage(2);
+    expect(mock.fetchSimulations).toHaveBeenCalledWith(2);
+  });
+
+  it('should not go to page less than 1', () => {
+    const mock = createStoreMock([mockSimulation], true);
+    const fixture = setupSimulations(mock);
+    fixture.componentInstance.goToPage(0);
+    expect(mock.fetchSimulations).toHaveBeenCalledTimes(1); // only init
+  });
+
+  it('should call setPageSize on onPageSizeChange', () => {
+    const mock = createStoreMock([mockSimulation]);
+    const fixture = setupSimulations(mock);
+    const event = new Event('change');
+    Object.defineProperty(event, 'target', { value: { value: '24' } });
+    fixture.componentInstance.onPageSizeChange(event);
+    expect(mock.setPageSize).toHaveBeenCalledWith(24);
   });
 });

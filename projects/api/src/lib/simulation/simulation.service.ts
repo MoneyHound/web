@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Simulation, CreateSimulation, UpdateSimulation, DataResponse, PageResponse, APP_CONFIG } from 'models';
+import { Simulation, CreateSimulation, UpdateSimulation, DataResponse, PageResponse, APP_CONFIG, TransactionsAnalysis } from 'models';
 
 @Injectable({
   providedIn: 'root',
@@ -47,6 +47,12 @@ export class SimulationService {
 
   rerunSimulation(id: string): Observable<DataResponse<Simulation>> {
     return this.http.post<DataResponse<Simulation>>(`${this.config.apiUrl}/simulations/${id}/rerun`, null, {
+      withCredentials: true,
+    });
+  }
+
+  analyzeSimulation(id: string): Observable<DataResponse<TransactionsAnalysis>> {
+    return this.http.get<DataResponse<TransactionsAnalysis>>(`${this.config.apiUrl}/simulations/${id}/analyze`, {
       withCredentials: true,
     });
   }

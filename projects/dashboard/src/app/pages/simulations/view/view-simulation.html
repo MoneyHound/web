@@ -6,7 +6,7 @@
         <p>Loading simulation...</p>
       </div>
     } @else if (simulation()) {
-      <div class="simulation-detail__header">
+      <div class="simulation-detail__topbar">
         <a class="simulation-detail__back" routerLink="/simulations">
           <span class="material-symbols-outlined">arrow_back</span>
           Simulations
@@ -27,83 +27,121 @@
         </div>
       </div>
 
-      <h1 class="simulation-detail__title">{{ simulation()!.title }}</h1>
-      @if (simulation()!.description) {
-        <p class="simulation-detail__description">{{ simulation()!.description }}</p>
+      <div class="simulation-detail__heading">
+        <h1 class="simulation-detail__title">{{ simulation()!.title }}</h1>
+        @if (simulation()!.description) {
+          <p class="simulation-detail__description">{{ simulation()!.description }}</p>
+        }
+        <div class="simulation-detail__heading-meta">
+          <span class="simulation-detail__status-badge" [class]="'simulation-detail__status-badge--' + simulation()!.status.toLowerCase()">
+            {{ simulation()!.status }}
+          </span>
+          <span class="simulation-detail__heading-sep">&middot;</span>
+          <span class="simulation-detail__heading-date">{{ simulation()!.created_at | date:'mediumDate' }}</span>
+        </div>
+      </div>
+
+      <nav class="simulation-detail__tabs">
+        @for (tab of tabs; track tab) {
+          <button
+            class="simulation-detail__tab"
+            [class.simulation-detail__tab--active]="activeTab === tab"
+            type="button"
+            (click)="onTabChange(tab)"
+          >
+            {{ tab }}
+          </button>
+        }
+      </nav>
+
+      @if (activeTab === 'overview') {
+        <div class="simulation-detail__grid">
+          <div class="simulation-detail__card">
+            <span class="material-symbols-outlined simulation-detail__card-icon">schedule</span>
+            <div class="simulation-detail__card-content">
+              <span class="simulation-detail__card-label">Duration</span>
+              <span class="simulation-detail__card-value">{{ simulation()!.days }} day{{ simulation()!.days !== 1 ? 's' : '' }}</span>
+            </div>
+          </div>
+
+          <div class="simulation-detail__card">
+            <span class="material-symbols-outlined simulation-detail__card-icon">account_balance</span>
+            <div class="simulation-detail__card-content">
+              <span class="simulation-detail__card-label">Banks</span>
+              <span class="simulation-detail__card-value">{{ simulation()!.num_banks }}</span>
+            </div>
+          </div>
+
+          <div class="simulation-detail__card">
+            <span class="material-symbols-outlined simulation-detail__card-icon">group</span>
+            <div class="simulation-detail__card-content">
+              <span class="simulation-detail__card-label">Min Users</span>
+              <span class="simulation-detail__card-value">{{ simulation()!.min_num_user }}</span>
+            </div>
+          </div>
+
+          <div class="simulation-detail__card">
+            <span class="material-symbols-outlined simulation-detail__card-icon">warning</span>
+            <div class="simulation-detail__card-content">
+              <span class="simulation-detail__card-label">Fraudulence</span>
+              <span class="simulation-detail__card-value">{{ simulation()!.fraudulence }}</span>
+            </div>
+          </div>
+
+          <div class="simulation-detail__card">
+            <span class="material-symbols-outlined simulation-detail__card-icon">location_on</span>
+            <div class="simulation-detail__card-content">
+              <span class="simulation-detail__card-label">Location</span>
+              <span class="simulation-detail__card-value">{{ simulation()!.latitude }}, {{ simulation()!.longitude }}</span>
+            </div>
+          </div>
+
+          <div class="simulation-detail__card">
+            <span class="material-symbols-outlined simulation-detail__card-icon">radar</span>
+            <div class="simulation-detail__card-content">
+              <span class="simulation-detail__card-label">Radius</span>
+              <span class="simulation-detail__card-value">{{ simulation()!.radius }}</span>
+            </div>
+          </div>
+
+          <div class="simulation-detail__card">
+            <span class="material-symbols-outlined simulation-detail__card-icon">payments</span>
+            <div class="simulation-detail__card-content">
+              <span class="simulation-detail__card-label">Amount Range</span>
+              <span class="simulation-detail__card-value">{{ simulation()!.min_amount }} &ndash; {{ simulation()!.max_amount }}</span>
+            </div>
+          </div>
+
+          <div class="simulation-detail__card">
+            <span class="material-symbols-outlined simulation-detail__card-icon">calendar_today</span>
+            <div class="simulation-detail__card-content">
+              <span class="simulation-detail__card-label">Created</span>
+              <span class="simulation-detail__card-value">{{ simulation()!.created_at | date:'mediumDate' }}</span>
+            </div>
+          </div>
+        </div>
+      } @else if (activeTab === 'transactions') {
+        @if (simulation()!) {
+          <mh-simulation-transactions [simulationId]="simulation()!._id" />
+        }
+      } @else if (activeTab === 'accounts') {
+        @if (simulation()!) {
+          <mh-simulation-accounts [simulationId]="simulation()!._id" />
+        }
+      } @else if (activeTab === 'devices') {
+        @if (simulation()!) {
+          <mh-simulation-devices [simulationId]="simulation()!._id" />
+        }
+      } @else if (activeTab === 'individuals') {
+        @if (simulation()!) {
+          <mh-simulation-individuals [simulationId]="simulation()!._id" />
+        }
+      } @else {
+        <div class="simulation-detail__placeholder">
+          <span class="material-symbols-outlined simulation-detail__placeholder-icon">{{ activeTab === 'profiles' ? 'person' : activeTab === 'devices' ? 'devices' : 'account_balance' }}</span>
+          <p class="simulation-detail__placeholder-text">{{ activeTab | titlecase }} coming soon</p>
+        </div>
       }
-
-      <div class="simulation-detail__grid">
-        <div class="simulation-detail__card">
-          <span class="material-symbols-outlined simulation-detail__card-icon">schedule</span>
-          <div class="simulation-detail__card-content">
-            <span class="simulation-detail__card-label">Duration</span>
-            <span class="simulation-detail__card-value">{{ simulation()!.days }} day{{ simulation()!.days !== 1 ? 's' : '' }}</span>
-          </div>
-        </div>
-
-        <div class="simulation-detail__card">
-          <span class="material-symbols-outlined simulation-detail__card-icon">account_balance</span>
-          <div class="simulation-detail__card-content">
-            <span class="simulation-detail__card-label">Banks</span>
-            <span class="simulation-detail__card-value">{{ simulation()!.num_banks }}</span>
-          </div>
-        </div>
-
-        <div class="simulation-detail__card">
-          <span class="material-symbols-outlined simulation-detail__card-icon">group</span>
-          <div class="simulation-detail__card-content">
-            <span class="simulation-detail__card-label">Min Users</span>
-            <span class="simulation-detail__card-value">{{ simulation()!.min_num_user }}</span>
-          </div>
-        </div>
-
-        <div class="simulation-detail__card">
-          <span class="material-symbols-outlined simulation-detail__card-icon">warning</span>
-          <div class="simulation-detail__card-content">
-            <span class="simulation-detail__card-label">Fraudulence</span>
-            <span class="simulation-detail__card-value">{{ simulation()!.fraudulence }}</span>
-          </div>
-        </div>
-
-        <div class="simulation-detail__card">
-          <span class="material-symbols-outlined simulation-detail__card-icon">location_on</span>
-          <div class="simulation-detail__card-content">
-            <span class="simulation-detail__card-label">Location</span>
-            <span class="simulation-detail__card-value">{{ simulation()!.latitude }}, {{ simulation()!.longitude }}</span>
-          </div>
-        </div>
-
-        <div class="simulation-detail__card">
-          <span class="material-symbols-outlined simulation-detail__card-icon">radar</span>
-          <div class="simulation-detail__card-content">
-            <span class="simulation-detail__card-label">Radius</span>
-            <span class="simulation-detail__card-value">{{ simulation()!.radius }}</span>
-          </div>
-        </div>
-
-        <div class="simulation-detail__card">
-          <span class="material-symbols-outlined simulation-detail__card-icon">payments</span>
-          <div class="simulation-detail__card-content">
-            <span class="simulation-detail__card-label">Amount Range</span>
-            <span class="simulation-detail__card-value">{{ simulation()!.min_amount }} &ndash; {{ simulation()!.max_amount }}</span>
-          </div>
-        </div>
-
-        <div class="simulation-detail__card">
-          <span class="material-symbols-outlined simulation-detail__card-icon">calendar_today</span>
-          <div class="simulation-detail__card-content">
-            <span class="simulation-detail__card-label">Created</span>
-            <span class="simulation-detail__card-value">{{ simulation()!.created_at | date:'mediumDate' }}</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="simulation-detail__status">
-        <span class="simulation-detail__status-label">Status</span>
-        <span class="simulation-detail__status-badge" [class]="'simulation-detail__status-badge--' + simulation()!.status.toLowerCase()">
-          {{ simulation()!.status }}
-        </span>
-      </div>
     } @else {
       <div class="simulation-detail__empty">
         <span class="material-symbols-outlined simulation-detail__empty-icon">error</span>

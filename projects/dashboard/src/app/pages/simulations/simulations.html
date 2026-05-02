@@ -24,22 +24,60 @@
         </button>
       </div>
     } @else {
+      @if (hasSimulations()) {
+        <div class="simulations__toolbar">
+          <span class="simulations__page-info">Page {{ pagination.page() }} of {{ pagination.totalPages() }}</span>
+          <div class="simulations__page-size">
+            <label class="simulations__page-size-label" for="sim-page-size">Per page</label>
+            <select id="sim-page-size" class="simulations__select" [value]="pagination.pageSize()" (change)="onPageSizeChange($event)">
+              @for (size of pageSizes; track size) {
+                <option [value]="size">{{ size }}</option>
+              }
+            </select>
+          </div>
+        </div>
+      }
+
       <div class="simulations__grid">
         @for (simulation of simulations(); track simulation._id) {
           <mh-simulation-card [simulation]="simulation" [link]="'/simulations/' + simulation._id" />
         }
       </div>
 
-      @if (hasMore()) {
-        <div class="simulations__pagination">
-          <button mh-button variant="secondary" size="sm" type="button" [disabled]="isLoading()" (click)="loadMore()">
-            @if (isLoading()) {
-              Loading...
-            } @else {
-              Load More
-            }
+      @if (pagination.totalPages() > 1) {
+        <nav class="simulations__pagination">
+          <button
+            class="simulations__page-btn"
+            type="button"
+            [disabled]="pagination.page() <= 1 || isLoading()"
+            (click)="goToPage(pagination.page() - 1)"
+          >
+            <span class="material-symbols-outlined">chevron_left</span>
           </button>
-        </div>
+          @for (p of pagination.pages(); track p) {
+            @if (p === -1) {
+              <span class="simulations__page-ellipsis">&hellip;</span>
+            } @else {
+              <button
+                class="simulations__page-btn"
+                [class.simulations__page-btn--active]="p === pagination.page()"
+                type="button"
+                [disabled]="isLoading()"
+                (click)="goToPage(p)"
+              >
+                {{ p }}
+              </button>
+            }
+          }
+          <button
+            class="simulations__page-btn"
+            type="button"
+            [disabled]="pagination.page() >= pagination.totalPages() || isLoading()"
+            (click)="goToPage(pagination.page() + 1)"
+          >
+            <span class="material-symbols-outlined">chevron_right</span>
+          </button>
+        </nav>
       }
     }
   </div>

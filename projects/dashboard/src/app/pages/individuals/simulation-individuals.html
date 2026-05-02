@@ -1,0 +1,88 @@
+@if (isLoading() && individuals().length === 0) {
+  <div class="simulation-individuals__loading">
+    <span class="material-symbols-outlined simulation-individuals__loading-icon">hourglass_empty</span>
+    <p>Loading individuals...</p>
+  </div>
+} @else if (individuals().length === 0) {
+  <div class="simulation-individuals__empty">
+    <span class="material-symbols-outlined simulation-individuals__empty-icon">person</span>
+    <p>No individuals yet</p>
+  </div>
+} @else {
+  <div class="simulation-individuals__toolbar">
+    <span class="simulation-individuals__page-info">Page {{ pagination.page() }} of {{ pagination.totalPages() }}</span>
+    <div class="simulation-individuals__page-size">
+      <label class="simulation-individuals__page-size-label" for="individuals-page-size">Per page</label>
+      <select id="individuals-page-size" class="simulation-individuals__select" [value]="pagination.pageSize()" (change)="onPageSizeChange($event)">
+        @for (size of pageSizes; track size) {
+          <option [value]="size">{{ size }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="simulation-individuals__table-wrapper">
+    <table class="simulation-individuals__table">
+      <thead>
+        <tr>
+          <th>User ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Gender</th>
+          <th>Birthdate</th>
+          <th>Devices</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (ind of individuals(); track ind._id) {
+          <tr>
+            <td class="simulation-individuals__mono">{{ ind.user_id }}</td>
+            <td class="simulation-individuals__truncate">{{ ind.name }}</td>
+            <td class="simulation-individuals__truncate">{{ ind.email }}</td>
+            <td>
+              <span class="simulation-individuals__badge" [class]="'simulation-individuals__badge--' + ind.gender.toLowerCase()">{{ ind.gender }}</span>
+            </td>
+            <td>{{ ind.birthdate | date:'mediumDate' }}</td>
+            <td>{{ ind.devices.length }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (pagination.totalPages() > 1) {
+    <nav class="simulation-individuals__pagination">
+      <button
+        class="simulation-individuals__page-btn"
+        type="button"
+        [disabled]="pagination.page() <= 1 || isLoading()"
+        (click)="goToPage(pagination.page() - 1)"
+      >
+        <span class="material-symbols-outlined">chevron_left</span>
+      </button>
+      @for (p of pagination.pages(); track p) {
+        @if (p === -1) {
+          <span class="simulation-individuals__page-ellipsis">&hellip;</span>
+        } @else {
+          <button
+            class="simulation-individuals__page-btn"
+            [class.simulation-individuals__page-btn--active]="p === pagination.page()"
+            type="button"
+            [disabled]="isLoading()"
+            (click)="goToPage(p)"
+          >
+            {{ p }}
+          </button>
+        }
+      }
+      <button
+        class="simulation-individuals__page-btn"
+        type="button"
+        [disabled]="pagination.page() >= pagination.totalPages() || isLoading()"
+        (click)="goToPage(pagination.page() + 1)"
+      >
+        <span class="material-symbols-outlined">chevron_right</span>
+      </button>
+    </nav>
+  }
+}

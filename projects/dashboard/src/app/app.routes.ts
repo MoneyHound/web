@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { Register, SignIn, NotFound, authGuard, unAuthGuard } from 'auth';
+import { Register, SignIn, NotFound, authGuard } from 'auth';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { Profile } from './pages/profile/profile';
 import { SIMULATIONS_ROUTES } from './pages/simulations/simulations.routes';
@@ -22,12 +22,10 @@ export const routes: Routes = [
   {
     path: 'register',
     component: Register,
-    canActivate: [unAuthGuard]
   },
   {
     path: 'signin',
     component: SignIn,
-    canActivate: [unAuthGuard]
   },
   {
     path: '**',

@@ -1,7 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MhButton, MhInput, MhFormGroup } from 'ui';
 import { AuthStore } from 'store';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'auth-signin',
@@ -9,8 +10,10 @@ import { AuthStore } from 'store';
   templateUrl: './signin.html',
   styleUrl: './signin.scss',
 })
-export class SignIn {
+export class SignIn implements OnInit {
   private readonly authStore = inject(AuthStore);
+  private readonly router = inject(Router);
+
   protected readonly registerRoute = signal('/register');
   private readonly fb = inject(FormBuilder);
 
@@ -24,6 +27,10 @@ export class SignIn {
   readonly codeSent = this.authStore.codeSent;
   readonly resendWait = this.authStore.resendWait;
   readonly isLoadingGoogle = this.authStore.isLoadingGoogle;
+
+  ngOnInit(): void {
+    this.authStore.fetchProfile('/');
+  }
 
   onRequestCode(): void {
     if (this.form.get('email')?.invalid) {

@@ -1,0 +1,94 @@
+@if (isLoading() && accounts().length === 0) {
+  <div class="simulation-accounts__loading">
+    <span class="material-symbols-outlined simulation-accounts__loading-icon">hourglass_empty</span>
+    <p>Loading accounts...</p>
+  </div>
+} @else if (accounts().length === 0) {
+  <div class="simulation-accounts__empty">
+    <span class="material-symbols-outlined simulation-accounts__empty-icon">account_balance</span>
+    <p>No accounts yet</p>
+  </div>
+} @else {
+  <div class="simulation-accounts__toolbar">
+    <span class="simulation-accounts__page-info">Page {{ pagination.page() }} of {{ pagination.totalPages() }}</span>
+    <div class="simulation-accounts__page-size">
+      <label class="simulation-accounts__page-size-label" for="accounts-page-size">Per page</label>
+      <select id="accounts-page-size" class="simulation-accounts__select" [value]="pagination.pageSize()" (change)="onPageSizeChange($event)">
+        @for (size of pageSizes; track size) {
+          <option [value]="size">{{ size }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="simulation-accounts__table-wrapper">
+    <table class="simulation-accounts__table">
+      <thead>
+        <tr>
+          <th>Account No</th>
+          <th>Name</th>
+          <th>Bank</th>
+          <th>Balance</th>
+          <th>KYC</th>
+          <th>Merchant</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (acc of accounts(); track acc._id) {
+          <tr>
+            <td class="simulation-accounts__mono">{{ acc.account_no }}</td>
+            <td class="simulation-accounts__truncate">{{ acc.account_name }}</td>
+            <td class="simulation-accounts__truncate">{{ acc.bank_name }}</td>
+            <td>{{ acc.balance | number:'1.0-2' }}</td>
+            <td>
+              <span class="simulation-accounts__badge simulation-accounts__badge--kyc">KYC {{ acc.kyc }}</span>
+            </td>
+            <td>
+              @if (acc.merchant) {
+                <span class="simulation-accounts__badge simulation-accounts__badge--merchant">Merchant</span>
+              } @else {
+                <span class="simulation-accounts__badge simulation-accounts__badge--personal">Personal</span>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (pagination.totalPages() > 1) {
+    <nav class="simulation-accounts__pagination">
+      <button
+        class="simulation-accounts__page-btn"
+        type="button"
+        [disabled]="pagination.page() <= 1 || isLoading()"
+        (click)="goToPage(pagination.page() - 1)"
+      >
+        <span class="material-symbols-outlined">chevron_left</span>
+      </button>
+      @for (p of pagination.pages(); track p) {
+        @if (p === -1) {
+          <span class="simulation-accounts__page-ellipsis">&hellip;</span>
+        } @else {
+          <button
+            class="simulation-accounts__page-btn"
+            [class.simulation-accounts__page-btn--active]="p === pagination.page()"
+            type="button"
+            [disabled]="isLoading()"
+            (click)="goToPage(p)"
+          >
+            {{ p }}
+          </button>
+        }
+      }
+      <button
+        class="simulation-accounts__page-btn"
+        type="button"
+        [disabled]="pagination.page() >= pagination.totalPages() || isLoading()"
+        (click)="goToPage(pagination.page() + 1)"
+      >
+        <span class="material-symbols-outlined">chevron_right</span>
+      </button>
+    </nav>
+  }
+}

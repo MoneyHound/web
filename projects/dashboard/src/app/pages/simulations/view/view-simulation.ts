@@ -1,14 +1,18 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { DatePipe, TitleCasePipe } from '@angular/common';
 import { SimulationStore } from 'store';
 import { MhButton, PopupService } from 'ui';
 import { UpdateSimulation } from '../update/update-simulation';
-
+import { MhSimulationTransactions } from '../../transactions/simulation-transactions';
+import { MhSimulationAccounts } from '../../accounts/simulation-accounts';
+import { MhSimulationDevices } from '../../devices/simulation-devices';
+import { MhSimulationIndividuals } from '../../individuals/simulation-individuals';
+import { MhSimulationAnalysis } from '../analysis/simulation-analysis';
 @Component({
   selector: 'app-view-simulation',
   standalone: true,
-  imports: [DatePipe, RouterLink, MhButton],
+  imports: [DatePipe, TitleCasePipe, RouterLink, MhButton, MhSimulationTransactions, MhSimulationAccounts, MhSimulationDevices, MhSimulationIndividuals, MhSimulationAnalysis],
   templateUrl: './view-simulation.html',
   styleUrl: './view-simulation.scss',
 })
@@ -21,12 +25,19 @@ export class ViewSimulation {
   readonly simulation = this.simulationStore.simulation;
   readonly isLoading = this.simulationStore.isLoadingSimulation;
   readonly isRerunning = this.simulationStore.isRerunning;
+  activeTab = 'overview';
+
+  readonly tabs = ['overview', 'analysis', 'individuals', 'accounts', 'organizations', 'devices', 'transactions'];
 
   constructor() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.simulationStore.fetchSimulation(id);
     }
+  }
+
+  onTabChange(tab: string): void {
+    this.activeTab = tab;
   }
 
   openEditForm(): void {

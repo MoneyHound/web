@@ -1,0 +1,86 @@
+@if (isLoading() && devices().length === 0) {
+  <div class="simulation-devices__loading">
+    <span class="material-symbols-outlined simulation-devices__loading-icon">hourglass_empty</span>
+    <p>Loading devices...</p>
+  </div>
+} @else if (devices().length === 0) {
+  <div class="simulation-devices__empty">
+    <span class="material-symbols-outlined simulation-devices__empty-icon">devices</span>
+    <p>No devices yet</p>
+  </div>
+} @else {
+  <div class="simulation-devices__toolbar">
+    <span class="simulation-devices__page-info">Page {{ pagination.page() }} of {{ pagination.totalPages() }}</span>
+    <div class="simulation-devices__page-size">
+      <label class="simulation-devices__page-size-label" for="devices-page-size">Per page</label>
+      <select id="devices-page-size" class="simulation-devices__select" [value]="pagination.pageSize()" (change)="onPageSizeChange($event)">
+        @for (size of pageSizes; track size) {
+          <option [value]="size">{{ size }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <div class="simulation-devices__table-wrapper">
+    <table class="simulation-devices__table">
+      <thead>
+        <tr>
+          <th>Device ID</th>
+          <th>Owner</th>
+          <th>Type</th>
+          <th>Latitude</th>
+          <th>Longitude</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (dev of devices(); track dev._id) {
+          <tr>
+            <td class="simulation-devices__mono">{{ dev.device_id }}</td>
+            <td class="simulation-devices__truncate">{{ dev.owner }}</td>
+            <td>
+              <span class="simulation-devices__badge" [class]="'simulation-devices__badge--' + dev.type.toLowerCase()">{{ dev.type }}</span>
+            </td>
+            <td>{{ dev.latitude | number:'1.4-4' }}</td>
+            <td>{{ dev.longitude | number:'1.4-4' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (pagination.totalPages() > 1) {
+    <nav class="simulation-devices__pagination">
+      <button
+        class="simulation-devices__page-btn"
+        type="button"
+        [disabled]="pagination.page() <= 1 || isLoading()"
+        (click)="goToPage(pagination.page() - 1)"
+      >
+        <span class="material-symbols-outlined">chevron_left</span>
+      </button>
+      @for (p of pagination.pages(); track p) {
+        @if (p === -1) {
+          <span class="simulation-devices__page-ellipsis">&hellip;</span>
+        } @else {
+          <button
+            class="simulation-devices__page-btn"
+            [class.simulation-devices__page-btn--active]="p === pagination.page()"
+            type="button"
+            [disabled]="isLoading()"
+            (click)="goToPage(p)"
+          >
+            {{ p }}
+          </button>
+        }
+      }
+      <button
+        class="simulation-devices__page-btn"
+        type="button"
+        [disabled]="pagination.page() >= pagination.totalPages() || isLoading()"
+        (click)="goToPage(pagination.page() + 1)"
+      >
+        <span class="material-symbols-outlined">chevron_right</span>
+      </button>
+    </nav>
+  }
+}

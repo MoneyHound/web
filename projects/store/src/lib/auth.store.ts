@@ -112,7 +112,7 @@ export class AuthStore {
     });
   }
 
-  fetchProfile(): Promise<void> {
+  fetchProfile(route?: string): Promise<void> {
     if (this.profileFetched) {
       return Promise.resolve();
     }
@@ -123,6 +123,9 @@ export class AuthStore {
           this.profileFetched = true;
           if (response.success && response.data) {
             this._user.set(response.data);
+            if (route) {
+              this.router.navigate([route]);
+            }
           }
           resolve();
         },
