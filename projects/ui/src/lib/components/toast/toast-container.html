@@ -1,9 +1,9 @@
 <div class="toast-container">
   @for (toast of toastService.toasts(); track toast.id) {
     <div class="toast toast--{{ toast.type }}" role="alert" [attr.aria-live]="'polite'">
-      <span class="toast__icon material-icons">{{ getIcon(toast.type) }}</span>
+      <span class="toast__icon material-symbols-outlined">{{ getIcon(toast.type) }}</span>
       <span class="toast__message">{{ toast.message }}</span>
-      <button class="toast__close material-icons" type="button" (click)="toastService.dismiss(toast.id)" aria-label="Dismiss">
+      <button class="toast__close material-symbols-outlined" type="button" (click)="toastService.dismiss(toast.id)" aria-label="Dismiss">
         close
       </button>
     </div>

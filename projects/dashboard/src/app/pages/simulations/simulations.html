@@ -1,0 +1,46 @@
+<section class="simulations">
+  <div class="simulations__container">
+    <div class="simulations__header">
+      <div>
+        <h1 class="simulations__title">Simulations</h1>
+        <p class="simulations__subtitle">Generate realistic transaction datasets</p>
+      </div>
+      <button mh-button variant="secondary" size="sm" type="button" (click)="openForm()">
+        Generate Simulation
+      </button>
+    </div>
+
+    @if (isLoading() && !hasSimulations()) {
+      <div class="simulations__loading">
+        <span class="material-symbols-outlined simulations__loading-icon">hourglass_empty</span>
+        <p>Loading simulations...</p>
+      </div>
+    } @else if (!hasSimulations()) {
+      <div class="simulations__empty">
+        <span class="material-symbols-outlined simulations__empty-icon">simulation</span>
+        <p class="simulations__empty-text">No simulations yet. Generate your first simulation to get started.</p>
+        <button mh-button variant="primary" size="sm" type="button" (click)="openForm()">
+          Generate Simulation
+        </button>
+      </div>
+    } @else {
+      <div class="simulations__grid">
+        @for (simulation of simulations(); track simulation._id) {
+          <mh-simulation-card [simulation]="simulation" />
+        }
+      </div>
+
+      @if (hasMore()) {
+        <div class="simulations__pagination">
+          <button mh-button variant="secondary" size="sm" type="button" [disabled]="isLoading()" (click)="loadMore()">
+            @if (isLoading()) {
+              Loading...
+            } @else {
+              Load More
+            }
+          </button>
+        </div>
+      }
+    }
+  </div>
+</section>

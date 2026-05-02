@@ -1,7 +1,7 @@
 import { Injectable, inject, signal, computed, WritableSignal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'api';
-import { ToastService, PopupService } from 'ui';
+import { ToastService } from 'ui';
 import { User, CreateUser, VerifyOTP, UpdateProfile, APP_CONFIG } from 'models';
 
 @Injectable({

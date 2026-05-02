@@ -1,28 +1,36 @@
 @if (popupService.popup(); as popup) {
   <div class="popup__backdrop" (click)="popupService.close()"></div>
-  <div class="popup__card" [class.popup__card--iframe]="popup.iframeUrl">
-    <div class="popup__header">
-      <span class="popup__icon material-icons popup__icon--{{ popup.type }}">{{ getIcon(popup.type) }}</span>
-      <h2 class="popup__title">{{ popup.title }}</h2>
-    </div>
-    @if (popup.message) {
-      <p class="popup__message">{{ popup.message }}</p>
-    }
-    @if (popup.actions?.length) {
-      <div class="popup__actions">
-        @for (action of popup.actions; track action.label) {
-          <button
-            class="popup__btn popup__btn--{{ action.type }}"
-            type="button"
-            (click)="onAction(action.action)"
-          >
-            {{ action.label }}
-          </button>
+  <div class="popup__card" [class.popup__card--iframe]="popup.iframeUrl" [class.popup__card--wide]="popup.wide" [class.popup__card--component]="popup.component">
+    @if (popup.component) {
+      <div class="popup__content">
+        <ng-container *ngComponentOutlet="popup.component" />
+      </div>
+    } @else {
+      <div class="popup__header">
+        <span class="popup__icon material-symbols-outlined popup__icon--{{ popup.type }}">{{ getIcon(popup.type) }}</span>
+        <h2 class="popup__title">{{ popup.title }}</h2>
+      </div>
+      <div class="popup__content">
+        @if (popup.message) {
+          <p class="popup__message">{{ popup.message }}</p>
+        }
+        @if (popup.actions?.length) {
+          <div class="popup__actions">
+            @for (action of popup.actions; track action.label) {
+              <button
+                class="popup__btn popup__btn--{{ action.type }}"
+                type="button"
+                (click)="onAction(action.action)"
+              >
+                {{ action.label }}
+              </button>
+            }
+          </div>
+        }
+        @if (popup.iframeUrl) {
+          <iframe class="popup__iframe" [src]="safeUrl(popup.iframeUrl)" sandbox="allow-scripts allow-forms allow-same-origin allow-popups"></iframe>
         }
       </div>
-    }
-    @if (popup.iframeUrl) {
-      <iframe class="popup__iframe" [src]="safeUrl(popup.iframeUrl)" sandbox="allow-scripts allow-forms allow-same-origin allow-popups"></iframe>
     }
   </div>
 }

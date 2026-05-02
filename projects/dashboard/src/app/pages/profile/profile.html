@@ -68,7 +68,7 @@
     } @else {
       <div class="profile__cards">
         <div class="profile__card">
-          <span class="material-icons profile__card-icon">mail</span>
+          <span class="material-symbols-outlined profile__card-icon">mail</span>
           <div class="profile__card-content">
             <span class="profile__card-label">Email</span>
             <span class="profile__card-value">{{ authStore.user()?.email ?? '—' }}</span>
@@ -76,7 +76,7 @@
         </div>
 
         <div class="profile__card">
-          <span class="material-icons profile__card-icon">business</span>
+          <span class="material-symbols-outlined profile__card-icon">business</span>
           <div class="profile__card-content">
             <span class="profile__card-label">Organization</span>
             <span class="profile__card-value">{{ authStore.user()?.organization || '—' }}</span>
@@ -84,7 +84,7 @@
         </div>
 
         <div class="profile__card">
-          <span class="material-icons profile__card-icon">verified_user</span>
+          <span class="material-symbols-outlined profile__card-icon">verified_user</span>
           <div class="profile__card-content">
             <span class="profile__card-label">Status</span>
             <span class="profile__card-value profile__card-value--status">{{ authStore.user()?.status === 0 ? 'Active' : 'Inactive' }}</span>
@@ -92,7 +92,7 @@
         </div>
 
         <div class="profile__card">
-          <span class="material-icons profile__card-icon">calendar_today</span>
+          <span class="material-symbols-outlined profile__card-icon">calendar_today</span>
           <div class="profile__card-content">
             <span class="profile__card-label">Joined</span>
             <span class="profile__card-value">{{ authStore.user()?.created_at | date:'mediumDate' }}</span>

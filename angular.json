@@ -35,7 +35,10 @@
                 "output": "assets/ui"
               }
             ],
-            "styles": ["projects/dashboard/src/styles.scss"]
+            "styles": ["projects/dashboard/src/styles.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["projects/ui/src/lib/globals"]
+            }
           },
           "configurations": {
             "production": {
@@ -132,7 +135,10 @@
                 "output": "assets/ui"
               }
             ],
-            "styles": ["projects/marketing/src/styles.scss"]
+            "styles": ["projects/marketing/src/styles.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["projects/ui/src/lib/globals"]
+            }
           },
           "configurations": {
             "production": {
@@ -307,7 +313,10 @@
                 "output": "assets/ui"
               }
             ],
-            "styles": ["projects/admin/src/styles.scss"]
+            "styles": ["projects/admin/src/styles.scss"],
+            "stylePreprocessorOptions": {
+              "includePaths": ["projects/ui/src/lib/globals"]
+            }
           },
           "configurations": {
             "production": {

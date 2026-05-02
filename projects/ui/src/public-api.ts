@@ -16,3 +16,4 @@ export * from './lib/components/sidebar/sidebar';
 export * from './lib/components/navbar/navbar';
 export * from './lib/components/footer/footer';
 export * from './lib/components/otp-input/otp-input';
+export * from './lib/components/simulation-card/simulation-card';

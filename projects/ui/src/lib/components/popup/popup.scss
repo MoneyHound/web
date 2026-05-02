@@ -15,13 +15,22 @@
   transform: translate(-50%, -50%);
   width: 90%;
   max-width: 420px;
+  max-height: 85vh;
+  overflow: hidden;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 24px;
+  display: flex;
+  flex-direction: column;
   animation: scale-in 200ms ease-out;
 
   &--iframe {
+    max-width: 560px;
+  }
+
+  &--wide,
+  &--component {
     max-width: 560px;
   }
 
@@ -125,6 +134,14 @@
       background: var(--border);
     }
   }
+}
+
+.popup__content {
+  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .popup__iframe {

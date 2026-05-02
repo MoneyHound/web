@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
+import { NgComponentOutlet, CommonModule } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { PopupService } from './popup.service';
 
 @Component({
   selector: 'mh-popup',
-  imports: [],
+  imports: [CommonModule, NgComponentOutlet],
   templateUrl: './popup.html',
   styleUrl: './popup.scss',
 })

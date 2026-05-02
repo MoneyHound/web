@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, Type } from '@angular/core';
 
 export interface PopupAction {
   label: string;
@@ -12,6 +12,8 @@ export interface PopupConfig {
   type: 'success' | 'error' | 'warning' | 'info';
   actions?: PopupAction[];
   iframeUrl?: string;
+  component?: Type<unknown>;
+  wide?: boolean;
 }
 
 @Injectable({

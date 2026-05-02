@@ -18,5 +18,6 @@ export class App {
   readonly marketingUrl = this.config.marketingUrl;
   readonly navItems: SidebarItem[] = [
     { label: 'Dashboard', icon: 'home', route: '/', exact: true },
+    { label: 'Simulations', icon: 'simulation', route: '/simulations' },
   ];
 }

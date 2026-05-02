@@ -1,0 +1,128 @@
+<div class="create-simulation__header">
+  <h2 class="create-simulation__title">Generate Simulation</h2>
+  <button class="create-simulation__close" type="button" (click)="onClose()">
+    <span class="material-symbols-outlined">close</span>
+  </button>
+</div>
+
+<form class="create-simulation__form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mh-form-group
+    label="Title"
+    for="sim-title"
+    [control]="form.get('title')"
+    [errors]="{ required: 'Title is required', minlength: 'Title must be at least 3 characters' }"
+  >
+    <input mh-input type="text" id="sim-title" formControlName="title" placeholder="e.g., Q4 Fraud Scenario" />
+  </mh-form-group>
+
+  <mh-form-group
+    label="Description"
+    for="sim-description"
+    [control]="form.get('description')"
+    [errors]="{ maxlength: 'Description must be under 200 characters' }"
+  >
+    <textarea mh-textarea id="sim-description" formControlName="description" [rows]="3" placeholder="Optional description of this simulation"></textarea>
+  </mh-form-group>
+
+  <div class="create-simulation__form-row">
+    <mh-form-group
+      label="Number of Banks"
+      for="sim-num-banks"
+      [control]="form.get('num_banks')"
+      [errors]="{ required: 'Number of banks is required', min: 'Must be at least 1' }"
+    >
+      <input mh-input type="number" id="sim-num-banks" formControlName="num_banks" placeholder="e.g., 3" />
+    </mh-form-group>
+
+    <mh-form-group
+      label="Min Number of Users"
+      for="sim-min-users"
+      [control]="form.get('min_num_user')"
+      [errors]="{ required: 'Min users is required', min: 'Must be at least 1' }"
+    >
+      <input mh-input type="number" id="sim-min-users" formControlName="min_num_user" placeholder="e.g., 10" />
+    </mh-form-group>
+  </div>
+
+  <div class="create-simulation__form-row">
+    <mh-form-group
+      label="Latitude"
+      for="sim-lat"
+      [control]="form.get('latitude')"
+      [errors]="{ required: 'Latitude is required' }"
+    >
+      <input mh-input type="number" id="sim-lat" formControlName="latitude" placeholder="e.g., 6.5244" />
+    </mh-form-group>
+
+    <mh-form-group
+      label="Longitude"
+      for="sim-lng"
+      [control]="form.get('longitude')"
+      [errors]="{ required: 'Longitude is required' }"
+    >
+      <input mh-input type="number" id="sim-lng" formControlName="longitude" placeholder="e.g., 3.3792" />
+    </mh-form-group>
+  </div>
+
+  <div class="create-simulation__form-row">
+    <mh-form-group
+      label="Radius"
+      for="sim-radius"
+      [control]="form.get('radius')"
+      [errors]="{ min: 'Must be at least 1' }"
+    >
+      <input mh-input type="number" id="sim-radius" formControlName="radius" placeholder="10000" />
+    </mh-form-group>
+
+    <mh-form-group
+      label="Fraudulence"
+      for="sim-fraudulence"
+      [control]="form.get('fraudulence')"
+      [errors]="{ min: 'Must be 0 or above', max: 'Must be 1 or below' }"
+    >
+      <input mh-input type="number" id="sim-fraudulence" formControlName="fraudulence" placeholder="0.05" />
+    </mh-form-group>
+  </div>
+
+  <div class="create-simulation__form-row">
+    <mh-form-group
+      label="Min Amount"
+      for="sim-min-amount"
+      [control]="form.get('min_amount')"
+      [errors]="{ min: 'Must be 0 or above' }"
+    >
+      <input mh-input type="number" id="sim-min-amount" formControlName="min_amount" placeholder="100" />
+    </mh-form-group>
+
+    <mh-form-group
+      label="Max Amount"
+      for="sim-max-amount"
+      [control]="form.get('max_amount')"
+      [errors]="{ min: 'Must be 0 or above' }"
+    >
+      <input mh-input type="number" id="sim-max-amount" formControlName="max_amount" placeholder="100000000000" />
+    </mh-form-group>
+  </div>
+
+  <div class="create-simulation__form-row">
+    <mh-form-group
+      label="Days"
+      for="sim-days"
+      [control]="form.get('days')"
+      [errors]="{ min: 'Must be at least 1' }"
+    >
+      <input mh-input type="number" id="sim-days" formControlName="days" placeholder="7" />
+    </mh-form-group>
+  </div>
+
+  <div class="create-simulation__actions">
+    <button mh-button variant="primary" type="submit" [disabled]="isCreating() || form.invalid">
+      @if (isCreating()) {
+        Creating...
+      } @else {
+        Generate Simulation
+      }
+    </button>
+    <button mh-button variant="ghost" type="button" (click)="onClose()">Cancel</button>
+  </div>
+</form>
