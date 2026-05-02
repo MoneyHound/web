@@ -26,7 +26,7 @@
     } @else {
       <div class="simulations__grid">
         @for (simulation of simulations(); track simulation._id) {
-          <mh-simulation-card [simulation]="simulation" />
+          <mh-simulation-card [simulation]="simulation" [link]="'/simulations/' + simulation._id" />
         }
       </div>
 

@@ -3,10 +3,22 @@
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 20px;
-  transition: border-color 150ms ease;
+  transition: border-color 150ms ease, transform 150ms ease;
+  text-decoration: none;
+  color: inherit;
+  display: block;
 
   &:hover {
     border-color: var(--border2);
+  }
+}
+
+a.mh-simulation-card {
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-1px);
+    border-color: var(--gold);
   }
 }
 

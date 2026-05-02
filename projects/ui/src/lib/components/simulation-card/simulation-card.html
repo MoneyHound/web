@@ -1,4 +1,12 @@
-<div class="mh-simulation-card">
+@if (link()) {
+  <a class="mh-simulation-card" [routerLink]="link()">
+    <ng-container *ngTemplateOutlet="cardContent" />
+  </a>
+} @else {
+  <ng-container *ngTemplateOutlet="cardContent" />
+}
+
+<ng-template #cardContent>
   <div class="mh-simulation-card__header">
     <span class="material-symbols-outlined mh-simulation-card__icon">simulation</span>
     <div class="mh-simulation-card__header-content">
@@ -21,4 +29,4 @@
       {{ getStatusLabel(simulation().status) }}
     </span>
   </div>
-</div>
+</ng-template>

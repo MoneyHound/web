@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Simulation, CreateSimulation, DataResponse, PageResponse, APP_CONFIG } from 'models';
+import { Simulation, CreateSimulation, UpdateSimulation, DataResponse, PageResponse, APP_CONFIG } from 'models';
 
 @Injectable({
   providedIn: 'root',
@@ -21,8 +21,32 @@ export class SimulationService {
     });
   }
 
+  getSimulation(id: string): Observable<DataResponse<Simulation>> {
+    return this.http.get<DataResponse<Simulation>>(`${this.config.apiUrl}/simulations/${id}`, {
+      withCredentials: true,
+    });
+  }
+
   createSimulation(data: CreateSimulation): Observable<DataResponse<Simulation>> {
     return this.http.post<DataResponse<Simulation>>(`${this.config.apiUrl}/simulations`, data, {
+      withCredentials: true,
+    });
+  }
+
+  updateSimulation(id: string, data: UpdateSimulation): Observable<DataResponse<Simulation>> {
+    return this.http.patch<DataResponse<Simulation>>(`${this.config.apiUrl}/simulations/${id}`, data, {
+      withCredentials: true,
+    });
+  }
+
+  deleteSimulation(id: string): Observable<DataResponse<null>> {
+    return this.http.delete<DataResponse<null>>(`${this.config.apiUrl}/simulations/${id}`, {
+      withCredentials: true,
+    });
+  }
+
+  rerunSimulation(id: string): Observable<DataResponse<Simulation>> {
+    return this.http.post<DataResponse<Simulation>>(`${this.config.apiUrl}/simulations/${id}/rerun`, null, {
       withCredentials: true,
     });
   }

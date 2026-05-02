@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { SimulationStore } from 'store';
 import { MhButton, MhSimulationCard, PopupService } from 'ui';
-import { CreateSimulation } from './create-simulation';
+import { CreateSimulation } from './create/create-simulation';
 
 @Component({
   selector: 'app-simulations',

@@ -34,6 +34,10 @@
   font-weight: 700;
   font-size: 14px;
   line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 :host(.mh-button--sm) .mh-button__content {

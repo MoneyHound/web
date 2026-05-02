@@ -1,15 +1,17 @@
 import { Component, input } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { Simulation, SimulationStatus } from 'models';
 
 @Component({
   selector: 'mh-simulation-card',
-  imports: [DatePipe],
+  imports: [DatePipe, RouterLink, NgTemplateOutlet],
   templateUrl: './simulation-card.html',
   styleUrl: './simulation-card.scss',
 })
 export class MhSimulationCard {
   readonly simulation = input.required<Simulation>();
+  readonly link = input<string>();
 
   getStatusClass(status: SimulationStatus): string {
     switch (status) {

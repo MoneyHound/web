@@ -36,3 +36,18 @@ export interface CreateSimulation {
   max_amount?: number | null;
   days?: number | null;
 }
+
+export interface UpdateSimulation {
+  title?: string | null;
+  description?: string | null;
+  num_banks?: number | null;
+  min_num_user?: number | null;
+  fraudulence?: number | null;
+  latitude?: number | null;
+  longitude?: number | null;
+  radius?: number | null;
+  min_amount?: number | null;
+  max_amount?: number | null;
+  days?: number | null;
+  rerun?: boolean | null;
+}

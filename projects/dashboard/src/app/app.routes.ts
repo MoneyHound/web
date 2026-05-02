@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { Register, SignIn, NotFound, authGuard, unAuthGuard } from 'auth';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { Profile } from './pages/profile/profile';
-import { Simulations } from './pages/simulations/simulations';
+import { SIMULATIONS_ROUTES } from './pages/simulations/simulations.routes';
 
 export const routes: Routes = [
   {
@@ -12,8 +12,7 @@ export const routes: Routes = [
   },
   {
     path: 'simulations',
-    component: Simulations,
-    canActivate: [authGuard],
+    children: SIMULATIONS_ROUTES,
   },
   {
     path: 'profile',
